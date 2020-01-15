@@ -1,0 +1,6 @@
+- hosts: kibana
+  roles:
+    - geerlingguy.kibana
+  vars:
+    kibana_version: 7.x
+    kibana_config_template: "/etc/ansible/templates/kibana.j2"

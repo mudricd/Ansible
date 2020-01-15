@@ -1,0 +1,10 @@
+- name: Hosts file edit
+  hosts: all
+  gather_facts: False
+  tasks:
+  - name: update /etc/hosts file
+    become: true
+    blockinfile:
+      dest: /etc/hosts
+      content: "{{ lookup('template', '/etc/ansible/templates/hosts.j2') }}"
+      state: present
