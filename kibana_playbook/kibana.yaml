@@ -1,4 +1,4 @@
-- hosts: TESTgroup
+- hosts: Kibana_group
   roles:
     - geerlingguy.kibana
   vars:

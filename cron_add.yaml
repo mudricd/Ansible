@@ -8,7 +8,7 @@
     cron:
       name: "shutdown_servers"      
       user: "root"      
-      minute: "10"
+      minute: "30"
       hour: "6"
       job: "sudo shutdown -h now"
       state: present
