@@ -11,4 +11,4 @@
     my_name: Gandra
   tasks:
     - debug:
-            msg: "Kibana playbook {{ [1,2,3 ] | min }}"
+            msg: "Kibana job finished successfully { [1,2,3 ] | min }}"
