@@ -1,0 +1,14 @@
+
+- name: Cron edit
+  hosts: all
+  gather_facts: False
+  become: true
+  tasks:
+  - name: Shutdown Servers
+    cron:
+      name: "shutdown_servers"      
+      user: "root"      
+      minute: "10"
+      hour: "6"
+      job: "sudo shutdown -h now"
+      state: present
