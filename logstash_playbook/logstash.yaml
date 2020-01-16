@@ -14,7 +14,7 @@
         - java-1.8.0-openjdk
 
 - name: Logstash setup
-  hosts: logstash
+  hosts: Logstash_group
   roles: 
     - geerlingguy.logstash
   vars: 
