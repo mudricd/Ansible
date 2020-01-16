@@ -12,16 +12,16 @@
         - htop
         - nmap
 
-- name: Edit host file on all hosts
-  hosts: all
-  gather_facts: False
-  tasks:
-  - name: update hosts file
-    become: true
-    blockinfile:
-      dest: /etc/hosts
-      content: "{{ lookup('template', '/etc/ansible/templates/hosts.j2') }}"
-      state: present
+          #- name: Edit host file on all hosts
+          #  hosts: all
+          #  gather_facts: False
+          #  tasks:
+          #  - name: update hosts file
+          #    become: true
+          #    blockinfile:
+          #      dest: /etc/hosts
+          #      content: "{{ lookup('template', '/etc/ansible/templates/hosts.j2') }}"
+          #      state: present
 
 - name: Elasticsearch srv01 set up
   hosts: ip-10-174-21-11.tattsgroup.io
