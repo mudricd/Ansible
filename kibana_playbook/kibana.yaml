@@ -4,3 +4,11 @@
   vars:
     kibana_version: 7.x
     kibana_config_template: "/etc/ansible/templates/kibana.j2"
+
+- name: Notification
+  hosts: Kibana_group
+  vars:
+    my_name: Gandra
+  tasks:
+    - debug:
+            msg: "Kibana playbook {{ [1,2,3 ] | min }}"
