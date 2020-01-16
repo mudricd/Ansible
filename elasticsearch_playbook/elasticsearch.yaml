@@ -16,7 +16,7 @@
   hosts: all
   gather_facts: False
   tasks:
-  - name: update /etc/hosts file
+  - name: update hosts file
     become: true
     blockinfile:
       dest: /etc/hosts
