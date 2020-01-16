@@ -14,7 +14,7 @@
 
 - name: Edit host file on all hosts
   hosts: all
-  gather_facts: False
+  gather_facts: True
   tasks:
   - name: update hosts file
     become: true
