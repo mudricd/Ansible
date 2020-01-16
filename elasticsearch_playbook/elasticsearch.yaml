@@ -12,9 +12,12 @@
         - htop
         - nmap
 
+- name: gather facts
+  hosts: all
+
 - name: Edit host file on all hosts
   hosts: all
-  gather_facts: True
+ #  gather_facts: True
   tasks:
   - name: update hosts file
     become: true
