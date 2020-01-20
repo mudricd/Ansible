@@ -1,6 +1,6 @@
 ---
 - name: Install packages
-  hosts: Logstash_group
+  hosts: Logstash-Inventory-Group
   become: true
   tasks:
   - name: Install packages
