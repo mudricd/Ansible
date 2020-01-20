@@ -1,4 +1,4 @@
-- hosts: Kibana_group
+- hosts: Kibana-Inventory-Group
   roles:
     - geerlingguy.kibana
   vars:
@@ -6,7 +6,7 @@
     kibana_config_template: "/etc/ansible/templates/kibana.j2"
 
 - name: Notification
-  hosts: Kibana_group
+  hosts: Kibana-Inventory-Group
   vars:
     my_name: Gandra
   tasks:
