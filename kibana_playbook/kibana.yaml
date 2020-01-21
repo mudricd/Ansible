@@ -1,4 +1,4 @@
-- hosts: Kibana-Inventory-Group
+- hosts: Kibana-Group
   roles:
     - geerlingguy.kibana
   vars:
