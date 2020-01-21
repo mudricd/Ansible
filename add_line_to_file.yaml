@@ -5,4 +5,4 @@
     - name: Insert a line at the end of a file.
       lineinfile:
         path: /root/.ssh/authorized_keys
-        line: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC8i54wrxHdTZ7v2RjLv3HffWldqdgcQRCR3RdwTOPtU3SN0CypXKb9c2A6Yf0UrRl2T2OvODwZ/3/8pu7QG8qz3kfiiqzDH8L8k+oCl9ExQGYUojFC/W9KhKM+Iaoj4/wg+tEWOHBkHESADHRiqnq2qbO4sKBb9mv3mL+VGXog6f894FavOrjg8dNcz3lZPsLpJvd2z3rMwVUCrJGYs6NffGO32rK1ggmTKotl1Fi7/tR8rJ4UsTlT6RIz8CCZCqNBLOKr4tfouD1LROcMujAH+qSoVZE9wO3f4+TE/+QtL0om+6rTFF+XF3rRKi/JsdzQE0/9aHCvAzsbgaMPU4Dt root@awx"
+        line: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDAqWo/B7KD6qMr+QZsPjUeX2jvU459yY8YGM/g5LSw9erZLTEdy81ekGUs3EEw4zKTvltoVD+eXCscBWyjCjezIHMjHd9YBthbWurB1Bzq79ygVRVFyPnxyIJJVCPh3kG2BOcJ4BtfJUr4EixYiEE58yl6jsgsD47L9NWuA5raiguZijjpXe6bWwunDinvKJknrrSfxVJa62CU+qE0fS2AlsyKuFs3IjHOLb7x82bZG01NHa2Xkrt1YHnZimSEMwEia86Uutodu4p81t/8FfHQmzw+4nwlB4TxnHtJpkl20hbFlTkWEAhWEySkgAJPLz4q9k/zKFVMsOS7kIjlFLuv root@awx"
