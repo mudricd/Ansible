@@ -1,6 +1,7 @@
 ---
 kibana_version: "7.x"
 
+kibana_package_version: "-7.5.1"
 kibana_package: kibana
 kibana_package_state: present
 
