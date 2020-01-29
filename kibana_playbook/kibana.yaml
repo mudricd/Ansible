@@ -41,7 +41,7 @@
     - import_role:
         name: geerlingguy.kibana
       vars:
-        kibana_version: 7.x
+        kibana_version: 7.5.1
         kibana_config_template: "/etc/ansible/templates/kibana.j2"
 
     - name: Notification
