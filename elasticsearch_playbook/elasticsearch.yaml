@@ -80,7 +80,7 @@
       - plugin: ingest-attachment
 
 - name: Notification
-  hosts: all
+  hosts: ip-10-174-21-11.tattsgroup.io ip-10-174-21-64.tattsgroup.io ip-10-174-21-195.tattsgroup.io
   tasks:
     - debug:
         msg: "Elasticsearch job finished successfully!"
