@@ -80,7 +80,7 @@
       - plugin: ingest-attachment
 
 - name: Notification
-    debug:
-      msg: "Elasticsearch job finished successfully!"
+  debug:
+    msg: "Elasticsearch job finished successfully!"
                                                                                                                                                                              
 

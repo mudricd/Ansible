@@ -25,5 +25,5 @@
     logstash_local_syslog_path: /var/log/messages 
 
 - name: Notification
-    debug:
-      msg: "Logstash job finished successfully!"
+  debug:
+    msg: "Logstash job finished successfully!"
