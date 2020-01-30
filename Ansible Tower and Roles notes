@@ -1,0 +1,15 @@
+1. To use the roles with ansible tower:
+In repo (git) create folder for the playbook (repo is the source for Projects).
+For example: kibana_playbook
+Then copy your playbook into it.
+In the same folder create folder roles and copy your role into it.
+2. Before running job make sure that you can access from container awx_task to the node. Create the key on the container and coppy it onto hosts.
+3. Also note that every path specified in your playbook is related to awx_task container. I had a problem with template paths and I figured out that I had to copy template file into the comtainer.
+awx_task container is control node.
+4. By default tower runs jobs with user admin. To change default user edit ansible.cfg and uncomment #remote_user = root
+
+TO BE DONE AFTER TOWER SET UP:
+HOSTS FILE
+COPY TOWERS KEY TO THE HOSTS
+CREATE KIBANA TEMPLATE ON TOWER
+UPDATE HOSTS FILE ON ALL MACHINES FROM CF TEMPLATE - Ansible-playbook hosts_file.yaml

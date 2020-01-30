@@ -1,0 +1,21 @@
+#To ping all hosts from Ansible hosts file
+ansible -m ping all 
+
+#To ping all hosts from group named srvgroup
+ansible -m ping srvgroup
+
+#To ping individual host
+ansible -m ping elastic1
+
+#To ping multiple hosts
+ansible -m ping elastic1:elastic2
+
+#To send terminal command to remote host
+ansible -m shell -a 'free -m' elastic1
+
+#Create role (with dorectory structure)
+ansible-galaxy init elasticsearch
+
+#LIst roles and roles location
+ansible-galaxy list
+
