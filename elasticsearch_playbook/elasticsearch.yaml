@@ -82,7 +82,7 @@
 - name: Notification
   hosts: all
   tasks:
-    debug:
-      msg: "Elasticsearch job finished successfully!"
+    - debug:
+        msg: "Elasticsearch job finished successfully!"
                                                                                                                                                                              
 
