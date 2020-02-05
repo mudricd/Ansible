@@ -46,4 +46,4 @@
 
     - name: Notification
       debug:
-        msg: "Kibana job finished successfully!"
+        msg: "Kibana job finished successfully ale!"
