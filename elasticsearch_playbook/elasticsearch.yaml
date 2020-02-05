@@ -32,7 +32,7 @@
     es_config:
       node.name: ip-10-174-21-11.tattsgroup.io
       network.host: 0.0.0.0
-      cluster.name: "test-cluster"
+      cluster.name: "test-cluster11111"
       cluster.initial_master_nodes: "ip-10-174-21-11.tattsgroup.io,ip-10-174-21-64.tattsgroup.io,ip-10-174-21-195.tattsgroup.io"
       discovery.seed_hosts: "ip-10-174-21-11.tattsgroup.io,ip-10-174-21-64.tattsgroup.io,ip-10-174-21-195.tattsgroup.io"
       http.port: 9200
