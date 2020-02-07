@@ -24,7 +24,7 @@
           #      state: present
 
 - name: Elasticsearch srv01 set up
-  hosts: ip-10-174-21-11.tattsgroup.io
+  hosts: 10.174.21.11
   roles:
     - role: elastic.elasticsearch
   vars:
@@ -42,7 +42,7 @@
      - plugin: ingest-attachment
 
 - name: Elasticsearch srv02 set up
-  hosts: ip-10-174-21-64.tattsgroup.io
+  hosts: 10.174.21.64
   roles:
     - role: elastic.elasticsearch
   vars:
@@ -62,7 +62,7 @@
       - plugin: ingest-attachment
 
 - name: Elasticsearch srv03 set up
-  hosts: ip-10-174-21-195.tattsgroup.io
+  hosts: 10.174.21.195
   roles:
     - role: elastic.elasticsearch
   vars:
