@@ -1,6 +1,6 @@
 ---
 - name: Install packages
-  hosts: Logstash-Group
+  hosts: tag_Group_Logstash
   become: true
   tasks:
   - name: Install packages
@@ -25,7 +25,7 @@
     logstash_local_syslog_path: /var/log/messages 
 
 - name: Notification
-  hosts: Logstash-Group
+  hosts: tag_Group_Logstash
   tasks:
     - debug:
         msg: "Logstash job finished successfully!"
