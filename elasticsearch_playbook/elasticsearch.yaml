@@ -31,7 +31,7 @@
       network.host: 0.0.0.0
       cluster.name: "test-cluster"
       cluster.initial_master_nodes: "{{ groups.tag_Group_Elasticsearch | map('extract', hostvars, ['ansible_host']) | list }}"
-      discovery.seed_hosts: 10.174.21.11,10.174.21.64,10.174.21.195
+      discovery.seed_hosts: "{{ join_list | join(',') }}"
       http.port: 9200
       node.master: true
       bootstrap.memory_lock: false
