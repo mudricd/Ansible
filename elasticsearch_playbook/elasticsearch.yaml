@@ -24,8 +24,8 @@
           #      state: present
 
 - name: Determine nodes to join
-set_fact:
-  join_list: "{{ groups['tag_Group_Elasticsearch'] | map('extract', hostvars, ['ansible_host']) | list }}"
+  set_fact:
+    join_list: "{{ groups['tag_Group_Elasticsearch'] | map('extract', hostvars, ['ansible_host']) | list }}"
 
 - name: Elasticsearch srv01 set up
   hosts: tag_Group_Elasticsearch
