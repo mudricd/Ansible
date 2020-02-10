@@ -18,7 +18,7 @@
   tasks:
   - name: Setting nodes IPs 
     set_fact:
-      join_list: "{{ groups['tag_Group_Elasticsearch'] | map('extract', hostvars, ['ansible_host']) | list }}"
+      join_list: "{{ groups['tag_Group_Elasticsearch'] | map('extract', hostvars, ['ansible_host']) | list }}" # instead 'ansible_host' you can use the folloving variables as well: ansible_fqdn, ec2_private_ip_address or ansible_nodename 
 
 - name: Elasticsearch srv01 set up
   hosts: tag_Group_Elasticsearch
@@ -27,10 +27,9 @@
   vars:
     es_heap_size: "512m"
     es_config:
-#      node.name: ip-10-174-21-11.tattsgroup.io
       network.host: 0.0.0.0
       cluster.name: "test-cluster"
-      cluster.initial_master_nodes: "{{ groups.tag_Group_Elasticsearch | map('extract', hostvars, ['ansible_host']) | list }}"
+      cluster.initial_master_nodes: "{{ join_list | join(',') }}"
       discovery.seed_hosts: "{{ join_list | join(',') }}"
       http.port: 9200
       node.master: true
