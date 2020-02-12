@@ -1,13 +1,13 @@
 output {
   if "sysmessages" in [tags] {
     elasticsearch {
-      hosts => {{ logstash_elasticsearch_hosts | to_json }}
+      hosts => ["http://10.174.21.11:9200", "http://10.174.21.64:9200", "http://10.174.21.195:9200"]
       index => "sysmessages-%{+YYYY.MM}"
     }
   }
   else if "haproxy" in [tags] {
     elasticsearch {
-      hosts => {{ logstash_elasticsearch_hosts | to_json }}
+      hosts => ["http://10.174.21.11:9200", "http://10.174.21.64:9200", "http://10.174.21.195:9200"]
       index => "haproxy-%{+YYYY.MM}"
     }
   }
