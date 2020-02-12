@@ -1,0 +1,14 @@
+- hosts: Kibana-Group
+  roles:
+    - geerlingguy.kibana
+  vars:
+    kibana_version: 7.x
+    kibana_config_template: "/etc/ansible/templates/kibana.j2"
+
+- name: Notification
+  hosts: Kibana-Group
+  vars:
+    my_name: Gandra
+  tasks:
+    - debug:
+            msg: "Kibana job finished successfully 22222{ [1,2,3 ] | min }}"
