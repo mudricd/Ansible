@@ -24,7 +24,7 @@
   hosts: tag_Group_Elasticsearch
   become: true
   tasks:
-  - name:  
+  - name: Cluster name variable 
     set_fact:
       cluster_name: "{{ ec2_tag_OwnerDescription }}"
     when: "'ec2' in group_names"
