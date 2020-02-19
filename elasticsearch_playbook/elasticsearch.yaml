@@ -27,7 +27,7 @@
   tasks:
   - name: Setting nodes IPs 
     set_fact:
-      join_list: "{{ groups['tag_Environment_NonProd'] | map('extract', hostvars, ['ansible_host']) | list }}" # instead 'ansible_host' you can use the folloving variables as well: ansible_fqdn, ec2_private_ip_address or ansible_nodename 
+      NonProd_list: "{{ groups['tag_Environment_NonProd'] | map('extract', hostvars, ['ansible_host']) | list }}" # instead 'ansible_host' you can use the folloving variables as well: ansible_fqdn, ec2_private_ip_address or ansible_nodename 
 
 - name: Register variables based on tags
   hosts: tag_Group_Elasticsearch
@@ -68,8 +68,8 @@
     es_config:
       network.host: 0.0.0.0
       cluster.name: "{{ cluster_name }}"
-      cluster.initial_master_nodes: "{{ join_list | join(',') }}"
-      discovery.seed_hosts: "{{ join_list | join(',') }}"
+      cluster.initial_master_nodes: "{{ NonProd_list | join(',') }}"
+      discovery.seed_hosts: "{{ NonProd_list | join(',') }}"
       http.port: 9200
       node.master: true
       bootstrap.memory_lock: false
