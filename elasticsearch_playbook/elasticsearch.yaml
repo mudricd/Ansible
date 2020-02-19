@@ -50,10 +50,10 @@
       cluster.name: "{{ cluster_name }}"
       cluster.initial_master_nodes: "{{ join_list | join(',') }}"
       discovery.seed_hosts: "{{ join_list | join(',') }}"
-      http.port: 9201
+      http.port: 9203
       node.master: true
       bootstrap.memory_lock: false
-    es_api_port: 9201
+    es_api_port: 9203
     es_plugins:
      - plugin: ingest-attachment
   
