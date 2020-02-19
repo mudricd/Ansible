@@ -4,8 +4,6 @@
   become: true
   tasks:
     - name: Install packages
-      become: true
-      tasks:
       yum:
         name: "{{ packages }}"
         state: present
