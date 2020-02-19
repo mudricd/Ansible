@@ -26,7 +26,7 @@
   tasks:
   - name: Cluster name variable 
     set_fact:
-      cluster_name: "{{ ec2_tag_Group }}"
+      cluster_name: "{{ ec2_tag_ClusterName }}"
     when: "'ec2' in group_names"
 
 - name: Elasticsearch srv01 set up
