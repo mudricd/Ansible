@@ -26,7 +26,7 @@
   tasks:
   - name: Cluster name variable 
     set_fact:
-      cluster_name: "{{ ec2_tag_OwnerDescription }}"
+      cluster_name: "{{ ec2_tag_Group }}"
     when: "'ec2' in group_names"
 
 - name: Elasticsearch srv01 set up
@@ -37,8 +37,8 @@
     es_heap_size: "512m"
     es_config:
       network.host: 0.0.0.0
-      cluster.name: "test-cluster"
-  #    cluster.name: "{{ cluster_name }}"
+  #    cluster.name: "test-cluster"
+      cluster.name: "{{ cluster_name }}"
       cluster.initial_master_nodes: "{{ join_list | join(',') }}"
       discovery.seed_hosts: "{{ join_list | join(',') }}"
       http.port: 9200
