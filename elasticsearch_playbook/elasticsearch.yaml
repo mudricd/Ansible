@@ -13,12 +13,8 @@
           - nmap
     
     - name: Determine nodes to join
-      hosts: tag_Group_Elasticsearch
-      become: true
-      tasks:
-      - name: Setting nodes IPs 
-        set_fact:
-          join_list: "{{ groups['tag_Group_Elasticsearch'] | map('extract', hostvars, ['ansible_host']) | list }}" # instead 'ansible_host' you can use the folloving variables as well: ansible_fqdn, ec2_private_ip_address or ansible_nodename 
+      set_fact:
+        join_list: "{{ groups['tag_Group_Elasticsearch'] | map('extract', hostvars, ['ansible_host']) | list }}" # instead 'ansible_host' you can use the folloving variables as well: ansible_fqdn, ec2_private_ip_address or ansible_nodename 
     
     - name: Register variables based on tags
       hosts: tag_Group_Elasticsearch
