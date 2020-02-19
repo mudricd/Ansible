@@ -46,4 +46,6 @@
 
     - name: Notification
       debug:
-        msg: "Kibana job finished successfully!"
+        msg: "Kibana job finished successfully!!!"
+
+  when ('tag_Environment_Production' in group_names)
