@@ -45,6 +45,7 @@
   hosts: tag_Group_Elasticsearch
   roles:
     - role: elastic.elasticsearch
+      when: ('tag_Environment_Test' in group_names)
   vars:
     es_heap_size: "512m"
     es_config:
@@ -58,10 +59,9 @@
     es_api_port: 9200
     es_plugins:
      - plugin: ingest-attachment
-  when: ('tag_Environment_Test' in group_names)
+  
 
 - name: Notification
-  hosts: tag_Group_Elasticsearch
   tasks:
     - debug:
         msg: "Elasticsearch job finished successfully!"
