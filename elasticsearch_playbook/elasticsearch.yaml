@@ -22,10 +22,10 @@
       when: "'ec2' in group_names"
     
 - name: Elasticsearch srv01 set up
-      when: ('tag_Environment_Production' in group_names)
   hosts: tag_Group_Elasticsearch
   roles:
     - role: elastic.elasticsearch
+      when: ('tag_Environment_Production' in group_names)
   vars:
     es_heap_size: "512m"
     es_config:
