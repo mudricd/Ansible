@@ -3,6 +3,7 @@
 - name: Install packages
   hosts: tag_Group_Elasticsearch:tag_Group_Kibana:tag_Group_Logstash
   become: true
+  gather_facts: no
   ignore_unreachable: True
   tasks:
   - name: Install packages
