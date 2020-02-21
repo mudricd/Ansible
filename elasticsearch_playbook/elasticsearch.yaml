@@ -82,6 +82,7 @@
 
 - name: Notification
   hosts: tag_Group_Elasticsearch
+  ignore_unreachable: True 
   tasks:
     - debug:
         msg: "Elasticsearch job finished successfully!"
