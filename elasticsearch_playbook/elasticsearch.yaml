@@ -26,10 +26,9 @@
   become: true
   tasks:
   - name: Setting nodes IPs 
-    when: tag_Environment_NonProd is defined
     set_fact:
       NonProd_list: "{{ groups['tag_Environment_NonProd'] | map('extract', hostvars, ['ansible_host']) | list }}" # instead 'ansible_host' you can use the folloving variables as well: ansible_fqdn, ec2_private_ip_address or ansible_nodename
-    #when: tag_Environment_NonProd is defined
+    #when: tag_Environment_NonProd is defined 
     #when: ('tag_Environment_NonProd' in group_names) 
 
 - name: Register variables based on tags
