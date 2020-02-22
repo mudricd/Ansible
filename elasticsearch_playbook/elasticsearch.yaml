@@ -1,4 +1,5 @@
----
+ V
+ J---
 
 - name: Install packages
   hosts: tag_Group_Elasticsearch:tag_Group_Kibana:tag_Group_Logstash
@@ -19,27 +20,18 @@
   tasks:
   - name: Setting nodes IPs 
     set_fact:
-      join_list: "{{ groups['tag_Environment_Production'] | map('extract', hostvars, ['ansible_host']) | list }}" # instead 'ansible_host' you can use the folloving variables as well: ansible_fqdn, ec2_private_ip_address or ansible_nodename 
+      join_list: "{{ groups['tag_Environment_Production'] | default([]) | map('extract', hostvars, ['ansible_host']) | list }}" # instead 'ansible_host' you can use the folloving variables as well: ansible_fqdn, ec2_private_ip_address or ansible_nodename 
 
 - name: Determine nodes to join in NonProd
   hosts: tag_Group_Elasticsearch
   become: true
   tasks:
-  # - name: Setting nodes IPs 
-  #   set_fact:
-  #     NonProd_list: "{{ groups['tag_Environment_NonProd'] | map('extract', hostvars, ['ansible_host']) | list }}" # instead 'ansible_host' you can use the folloving variables as well: ansible_fqdn, ec2_private_ip_address or ansible_nodename
-    #when: tag_Environment_NonProd is defined 
-    #when: ('tag_Environment_NonProd' in group_names) 
   - name: Setting nodes IPs 
     set_fact:
-      NonProd_list: 
-        {{ 
-          groups['tag_Environment_NonProd']
-          | default([])
-          | map('extract', hostvars, ['ansible_host'])
-          | list
-        }}
-
+      NonProd_list: "{{ groups['tag_Environment_NonProd'] | map('extract', hostvars, ['ansible_host']) | list }}" # instead 'ansible_host' you can use the folloving variables as well: ansible_fqdn, ec2_private_ip_address or ansible_nodename
+    #when: tag_Environment_NonProd is defined 
+    #when: ('tag_Environment_NonProd' in group_names) 
+ 
 - name: Register variables based on tags
   hosts: tag_Group_Elasticsearch
   become: true
