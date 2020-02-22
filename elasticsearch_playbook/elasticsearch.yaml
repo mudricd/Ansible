@@ -20,7 +20,7 @@
   tasks:
   - name: Setting nodes IPs 
     set_fact:
-      join_list: "{{ groups['tag_Environment_Production'] | default(5, true) | map('extract', hostvars, ['ansible_host']) | list }}" # instead 'ansible_host' you can use the folloving variables as well: ansible_fqdn, ec2_private_ip_address or ansible_nodename 
+      join_list: "{{ groups['tag_Environment_Production'] | default('test', true) | map('extract', hostvars, ['ansible_host']) | list }}" # instead 'ansible_host' you can use the folloving variables as well: ansible_fqdn, ec2_private_ip_address or ansible_nodename 
 
 - name: Determine nodes to join in NonProd
   hosts: tag_Group_Elasticsearch
