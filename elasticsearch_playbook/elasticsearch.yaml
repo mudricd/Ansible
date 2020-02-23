@@ -25,7 +25,6 @@
 - name: Determine nodes to join in NonProd
   hosts: tag_Group_Elasticsearch
   become: true
-  gather_facts: false
   tasks:
   - name: Setting nodes IPs 
     set_fact:
