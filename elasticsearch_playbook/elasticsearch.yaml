@@ -1,5 +1,5 @@
- V
- J---
+
+ ---
 
 - name: Install packages
   hosts: tag_Group_Elasticsearch:tag_Group_Kibana:tag_Group_Logstash
