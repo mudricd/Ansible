@@ -39,8 +39,10 @@
       cluster_name: "{{ ec2_tag_ClusterName }}"
     when: "'ec2' in group_names"
 
-- name: Elasticsearch srv01 set up
+- name: Elasticsearch_prod_set_up
   hosts: tag_Group_Elasticsearch
+  tags:
+  - prod
   roles:
     - role: elastic.elasticsearch
       when: ('tag_Environment_Production' in group_names)
@@ -59,8 +61,10 @@
      - plugin: ingest-attachment
   
 
-- name: Elasticsearch non-prod set up
+- name: Elasticsearch_non-prod_set_up
   hosts: tag_Group_Elasticsearch
+  tags:
+  - nonprod
   roles:
     - role: elastic.elasticsearch
       when: ('tag_Environment_NonProd' in group_names)
