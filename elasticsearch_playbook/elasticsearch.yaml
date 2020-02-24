@@ -26,7 +26,7 @@
   tasks:
   - name: Setting nodes IPs 
     set_fact:
-      NonProd_list: "{{ groups['tag_Environment_NonProd'] | map('extract', hostvars, ['ansible_host']) | default('') | list }}" # instead 'ansible_host' you can use the folloving variables as well: ansible_fqdn, ec2_private_ip_address or ansible_nodename
+      NonProd_list: "{{ groups['tag_Environment_NonProd'] | map('extract', hostvars, ['ansible_host']) | list | default('') }}" # instead 'ansible_host' you can use the folloving variables as well: ansible_fqdn, ec2_private_ip_address or ansible_nodename
     #when: tag_Environment_NonProd is defined 
     #when: ('tag_Environment_NonProd' in group_names) 
  
