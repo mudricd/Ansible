@@ -43,7 +43,7 @@
   hosts: tag_Group_Elasticsearch
   roles:
     - role: elastic.elasticsearch
-      when: ('tag_Environment_Production' in group_names and {{ my_var }}==Jenkinsi)
+      when: ('tag_Environment_Production' in group_names)
   vars:
     es_heap_size: "512m"
     es_config:
@@ -63,7 +63,7 @@
   hosts: tag_Group_Elasticsearch
   roles:
     - role: elastic.elasticsearch
-      when: ('tag_Environment_NonProd' in group_names and {{ my_var }}==Jenkins)
+      when: ('tag_Environment_NonProd' in group_names)
   vars:
     es_heap_size: "512m"
     es_config:
