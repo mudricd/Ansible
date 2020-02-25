@@ -66,12 +66,12 @@
   roles:
   - role: geerlingguy.kibana
     when: ('tag_Environment_Test' in group_names)
-   vars:
-   kibana_version: 7.x
-   kibana_config_template: "/etc/ansible/templates/kibana.j2"
+  vars:
+    kibana_version: 7.x
+    kibana_config_template: "/etc/ansible/templates/kibana.j2"
 
 
 - name: Notification
- debug:
-   msg: "Kibana job finished successfully!"
+  debug:
+    msg: "Kibana job finished successfully!"
       
