@@ -1,6 +1,7 @@
 ---
 
-- hosts: tag_Group_Kibana
+- name: Install packages
+  hosts: tag_Kibana_Group
   become: true
   tasks:
     - name: Install packages
@@ -13,49 +14,64 @@
           - python2-pip
           - docker
 
-    - name: PIP Install
-      pip:
-        name: docker
+- name: PIP Install
+  hosts: tag_Kibana_Group
+  become: true
+  tasks:
+  - name: Install docker
+    pip:
+      name: docker
     
-    - name: Start and enable Docker service
-      service:
-        name: docker
-        state: started
-        enabled: yes
+- name: Start and enable Docker service
+  hosts: tag_Kibana_Group
+  become: true
+  tasks:
+  - name: Services
+    service:
+      name: docker
+      state: started
+      enabled: yes
 
-        #- name: Copy nginx conf
-        #copy:
-        #src: /etc/ansible/files/nginx.conf
-        #dest: /root/nginx.conf
-        #mode: '755'
+    #- name: Copy nginx conf
+    #copy:
+    #src: /etc/ansible/files/nginx.conf
+    #dest: /root/nginx.conf
+    #mode: '755'
 
-    - name: Create nginx container
-      docker_container:
-        name: nginx
-        image: nginx:latest
-        volumes:
-          - /root/nginx.conf:/etc/nginx/nginx.conf:rw
-        published_ports:
-          - "80:80"
+- name: Create nginx container
+  hosts: tag_Kibana_Group
+  become: true
+  tasks:
+  - name: Create container
+    docker_container:
+      name: nginx
+      image: nginx:latest
+      volumes:
+        - /root/nginx.conf:/etc/nginx/nginx.conf:rw
+      published_ports:
+        - "80:80"
         
-    - name: Determine nodes to join in NonProd
-      hosts: tag_Group_Kibana
-      become: true
-      tasks:
-      - name: Setting nodes IPs 
-        set_fact:
-          NonProd_list: "{{ groups['tag_Environment_NonProd'] | map('extract', hostvars, ['ansible_host']) | list }}" # instead 'ansible_host' you can use the folloving variables as well: ansible_fqdn, ec2_private_ip_address or ansible_nodename
-        #when: tag_Environment_NonProd is defined 
-        #when: ('tag_Environment_NonProd' in group_names) 
- 
+- name: Determine nodes to join in Test
+  hosts: tag_Environment_Test
+  become: true
+  tasks:
+  - name: Setting nodes IPs 
+    set_fact:
+      Test_list: "{{ groups['tag_Environment_Test'] | map('extract', hostvars, ['ansible_host']) | list }}" # instead 'ansible_host' you can use the folloving variables as well: ansible_fqdn, ec2_private_ip_address or ansible_nodename
+    #when: tag_Environment_NonProd is defined 
+    #when: ('tag_Environment_NonProd' in group_names) 
 
-    - import_role:
-        name: geerlingguy.kibana
-      vars:
-        kibana_version: 7.x
-        kibana_config_template: "/etc/ansible/templates/kibana.j2"
+- name: Kibana_test_set_up
+  hosts: tag_Environment_Test
+  roles:
+  - role: geerlingguy.kibana
+    when: ('tag_Environment_Test' in group_names)
+   vars:
+   kibana_version: 7.x
+   kibana_config_template: "/etc/ansible/templates/kibana.j2"
 
-    - name: Notification
-      debug:
-        msg: "Kibana job finished successfully!"
+
+- name: Notification
+ debug:
+   msg: "Kibana job finished successfully!"
       
