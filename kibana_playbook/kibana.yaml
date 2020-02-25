@@ -1,7 +1,7 @@
 ---
 
 - name: Install packages
-  hosts: tag_Kibana_Group;tag_KibanaProd_Group
+  hosts: tag_Kibana_Group:tag_KibanaProd_Group
   become: true
   tasks:
     - name: Install packages
@@ -15,7 +15,7 @@
           - docker
 
 - name: PIP Install
-  hosts: tag_Kibana_Group;tag_KibanaProd_Group
+  hosts: tag_Kibana_Group:tag_KibanaProd_Group
   become: true
   tasks:
   - name: Install docker
@@ -23,7 +23,7 @@
       name: docker
     
 - name: Start and enable Docker service
-  hosts: tag_Kibana_Group;tag_KibanaProd_Group
+  hosts: tag_Kibana_Group:tag_KibanaProd_Group
   become: true
   tasks:
   - name: Services
@@ -39,7 +39,7 @@
     #mode: '755'
 
 - name: Create nginx container
-  hosts: tag_Kibana_Group;tag_KibanaProd_Group
+  hosts: tag_Kibana_Group:tag_KibanaProd_Group
   become: true
   tasks:
   - name: Create container
