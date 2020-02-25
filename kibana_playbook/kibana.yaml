@@ -60,9 +60,7 @@
   - name: Setting nodes IPs 
     set_fact:
       Test_list: "{{ groups['tag_Environment_Test'] | map('extract', hostvars, ['ansible_host']) | list }}" # instead 'ansible_host' you can use the folloving variables as well: ansible_fqdn, ec2_private_ip_address or ansible_nodename
-    #when: tag_Environment_NonProd is defined 
-    #when: ('tag_Environment_NonProd' in group_names) 
-
+      
 - name: Kibana_test_set_up
   hosts: tag_Environment_Test
   roles:
@@ -73,6 +71,17 @@
     kibana_config_template: "/etc/ansible/templates/kibana.j2"
     kibana_elasticsearch_url: "http://ip-10-174-21-110.tattsgroup.io:9200"
     kibana_elasticsearch_hosts: "http://ip-10-174-21-110.tattsgroup.io:9200"
+
+- name: Kibana_prod_set_up
+  hosts: tag_KibanaProd_Group
+  roles:
+  - role: geerlingguy.kibana
+    when: ('tag_Environment_Prod' in group_names)
+  vars:
+    kibana_version: 7.x
+    kibana_config_template: "/etc/ansible/templates/kibana.j2"
+    kibana_elasticsearch_url: "http://ip-10-174-21-11.tattsgroup.io:9200"
+    kibana_elasticsearch_hosts: "http://ip-10-174-21-11.tattsgroup.io:9200"
 
 
 - name: Notification
