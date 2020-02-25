@@ -54,6 +54,8 @@
 - name: Determine nodes to join in Test
   hosts: tag_Environment_Test
   become: true
+  tags:
+  - test
   tasks:
   - name: Setting nodes IPs 
     set_fact:
