@@ -37,6 +37,17 @@
           - /root/nginx.conf:/etc/nginx/nginx.conf:rw
         published_ports:
           - "80:80"
+        
+    - name: Determine nodes to join in NonProd
+      hosts: tag_Group_Kibana
+      become: true
+      tasks:
+      - name: Setting nodes IPs 
+        set_fact:
+          NonProd_list: "{{ groups['tag_Environment_NonProd'] | map('extract', hostvars, ['ansible_host']) | list }}" # instead 'ansible_host' you can use the folloving variables as well: ansible_fqdn, ec2_private_ip_address or ansible_nodename
+        #when: tag_Environment_NonProd is defined 
+        #when: ('tag_Environment_NonProd' in group_names) 
+ 
 
     - import_role:
         name: geerlingguy.kibana
