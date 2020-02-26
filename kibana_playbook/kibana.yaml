@@ -72,15 +72,6 @@
     set_fact:
       Prod_list: "{{ groups['tag_Environment_Production'] | default('test', true) | map('extract', hostvars, ['ansible_host']) | list }}" 
   
-- name: test loop
-  hosts: tag_Environment_Test
-  become: true
-  tasks:
-  - name: Debug 
-    debug:
-       msg: "http://{{ item }}:9200"
-    loop: "{{ Prod_list }}"
-
 - name: test list
   hosts: tag_Environment_Test
   become: true
@@ -89,8 +80,8 @@
   tasks:
   - name: list 
     set_fact:
-       ellist: " {{ http://{{ item }}:9200 | join(', ') }}"
-    with_items: "{{ Prod_list }}"
+       ellist: " {{ 'https://' + Prod_list|join(':8000,https://') + ':8000' }}"
+#    with_items: "{{ Prod_list }}"
   - name: Debug 
     debug:
        msg: "{{ ellist }}"
