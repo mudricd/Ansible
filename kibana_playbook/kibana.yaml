@@ -88,7 +88,7 @@
   - name: list 
     set_fact:
        ellist: "http://{{ item }}:9200"
-    loop: "{{ Prod_list }}"
+    with_items: "{{ Prod_list }}"
   - name: Debug 
     debug:
        msg: "{{ ellist }}"
