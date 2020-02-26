@@ -1,6 +1,6 @@
 ---
 - name: Install packages
-  hosts: tag_Group_Logstash
+  hosts: tag_Group_Logstash:tag_Environment_Test
   become: true
   tasks:
   - name: Install packages
