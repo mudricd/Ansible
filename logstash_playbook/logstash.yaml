@@ -16,8 +16,8 @@
 - name: Logstash setup
   hosts: tag_Environment_Test
   roles: 
-    - geerlingguy.logstash
-    when: ('tag_Environment_Test' in group_names)
+    - role: geerlingguy.logstash
+      when: ('tag_Environment_Test' in group_names)
   vars: 
     logstash_elasticsearch_hosts:
       - http://10.174.21.110:9200
