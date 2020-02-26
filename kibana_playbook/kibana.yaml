@@ -37,11 +37,12 @@
     #src: /etc/ansible/files/nginx.conf
     #dest: /root/nginx.conf
     #mode: '755'
-- name: Create nginx conf file
+
+- name: Nginx
   hosts: tag_Kibana_Group:tag_KibanaProd_Group
   become: true
   tasks:
-  - name: Nginx file  
+  - name: Nginx file
     file:
       path: /root/nginx.conf
       state: file
