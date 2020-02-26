@@ -78,7 +78,7 @@
   tasks:
   - name: Debug 
     debug:
-       msg: "{{ item }}"
+       msg: "http://{{ item }}:9200"
     loop: "{{ Prod_list }}"
       
 - name: Kibana_test_set_up
