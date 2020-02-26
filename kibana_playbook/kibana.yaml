@@ -76,7 +76,7 @@
   hosts: tag_KibanaProd_Group
   roles:
   - role: geerlingguy.kibana
-    #when: ('tag_Environment_Prod' in group_names)
+    when: ('tag_Environment_Production' in group_names)
   vars:
     kibana_version: 7.x
     kibana_config_template: "/etc/ansible/templates/kibana.j2"
