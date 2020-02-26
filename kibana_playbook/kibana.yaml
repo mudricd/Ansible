@@ -80,6 +80,27 @@
     debug:
        msg: "http://{{ item }}:9200"
     loop: "{{ Prod_list }}"
+
+- name: test list
+  hosts: tag_Environment_Test
+  become: true
+  tasks:
+  - name: list 
+    set_fact:
+       ellist: "http://{{ item }}:9200"
+    loop: "{{ Prod_list }}"
+  - name: Debug 
+    debug:
+       msg: "{{ ellist }}"
+
+# - name: lista
+#   hosts: tag_Environment_Test
+#   become: true
+#   tasks:
+#   - name: Debug 
+#     debug:
+#        msg: "{{ ellist}}"
+
       
 - name: Kibana_test_set_up
   hosts: tag_Environment_Test
