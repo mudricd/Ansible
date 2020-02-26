@@ -89,7 +89,7 @@
   tasks:
   - name: list 
     set_fact:
-       ellist: " {{ http://{{ item }}:9200 | list }}"
+       ellist: " {{ http://{{ item }}:9200 | join(', ') }}"
     with_items: "{{ Prod_list }}"
   - name: Debug 
     debug:
