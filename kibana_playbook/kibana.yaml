@@ -63,6 +63,14 @@
   - name: Setting nodes IPs 
     set_fact:
       Test_list: "{{ groups['tag_Environment_Test'] | map('extract', hostvars, ['ansible_host']) | list }}" # instead 'ansible_host' you can use the folloving variables as well: ansible_fqdn, ec2_private_ip_address or ansible_nodename
+
+- name: Determine nodes to join in Prod
+  hosts: tag_Group_Elasticsearch
+  become: true
+  tasks:
+  - name: Setting nodes IPs 
+    set_fact:
+      Prod_list: "{{ groups['tag_Environment_Production'] | default('test', true) | map('extract', hostvars, ['ansible_host']) | list }}" 
   
 - name: test loop
   hosts: tag_Environment_Test
@@ -71,7 +79,7 @@
   - name: Debug 
     debug:
        msg: "{{ item }}"
-    loop: "{{ Test_list }}"
+    loop: "{{ Prod_list }}"
       
 - name: Kibana_test_set_up
   hosts: tag_Environment_Test
