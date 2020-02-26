@@ -80,20 +80,11 @@
   tasks:
   - name: list 
     set_fact:
-       ellist: " {{ 'https://' + Prod_list|join(':8000,https://') + ':8000' }}"
+       ellist: " {{ 'http://' + Prod_list|join(':9200,https://') + ':9200' }}"
 #    with_items: "{{ Prod_list }}"
   - name: Debug 
     debug:
        msg: "{{ ellist }}"
-
-# - name: lista
-#   hosts: tag_Environment_Test
-#   become: true
-#   tasks:
-#   - name: Debug 
-#     debug:
-#        msg: "{{ ellist}}"
-
       
 - name: Kibana_test_set_up
   hosts: tag_Environment_Test
@@ -104,7 +95,7 @@
     kibana_version: 7.x
     kibana_config_template: "/etc/ansible/templates/kibana.j2"
     kibana_elasticsearch_url: "http://ip-10-174-21-110.tattsgroup.io:9200"
-    kibana_elasticsearch_hosts: "http://ip-10-174-21-110.tattsgroup.io:9200"
+    kibana_elasticsearch_hosts: "{{ ellist }}"
 
 - name: Kibana_prod_set_up
   hosts: tag_KibanaProd_Group
