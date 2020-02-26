@@ -89,7 +89,7 @@
   tasks:
   - name: list 
     set_fact:
-       ellist: "http://{{ item }}:9200"
+       ellist: " {{ http://{{ item }}:9200 | list }}"
     with_items: "{{ Prod_list }}"
   - name: Debug 
     debug:
