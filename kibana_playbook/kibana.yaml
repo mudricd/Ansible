@@ -46,7 +46,6 @@
     file:
       path: /root/nginx.conf
       state: touch
-      mode: 0755
 
 - name: Create nginx container
   hosts: tag_Kibana_Group:tag_KibanaProd_Group
