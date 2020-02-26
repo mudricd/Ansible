@@ -84,6 +84,8 @@
 - name: test list
   hosts: tag_Environment_Test
   become: true
+  vars:
+    ellist: []
   tasks:
   - name: list 
     set_fact:
