@@ -45,7 +45,7 @@
   - name: Nginx file
     file:
       path: /root/nginx.conf
-      state: file
+      state: touch
       mode: 0755
 
 - name: Create nginx container
