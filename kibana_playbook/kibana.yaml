@@ -65,13 +65,13 @@
       Test_list: "{{ groups['tag_Environment_Test'] | map('extract', hostvars, ['ansible_host']) | list }}" # instead 'ansible_host' you can use the folloving variables as well: ansible_fqdn, ec2_private_ip_address or ansible_nodename
   
 - name: test loop
-   hosts: tag_Environment_Test
-   become: true
-   tasks:
-   - name: Debug 
-     debug:
-        msg: "{{ item }}"
-     loop: "{{ Test_list }}"
+  hosts: tag_Environment_Test
+  become: true
+  tasks:
+  - name: Debug 
+    debug:
+       msg: "{{ item }}"
+    loop: "{{ Test_list }}"
       
 - name: Kibana_test_set_up
   hosts: tag_Environment_Test
