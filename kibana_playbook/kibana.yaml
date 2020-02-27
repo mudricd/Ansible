@@ -80,7 +80,8 @@
   tasks:
   - name: list 
     set_fact:
-       ellist: " {{ 'http://' + Prod_list|join(':9200,https://') + ':9200' }}"
+       #ellist: "{{ 'http://' + Test_list|join(':9200,https://') + ':9200' }}"
+       ellist: "{{ Prod_list | map('regex_replace', '(.*)', 'https://\\1:8000') | join(',')}}"
 #    with_items: "{{ Prod_list }}"
   - name: Debug 
     debug:
