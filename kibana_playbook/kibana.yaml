@@ -92,6 +92,7 @@
     kibana_elasticsearch_hosts: "{{ TestKibanaList }}"
 
 
+
 - name: Determine Kibana nodes to join in Prod
   hosts: tag_KibanaProd_Group
   become: true
@@ -104,42 +105,38 @@
   - name: Debug 
     debug:
        msg: "{{ Prod_list }}"
-
-- name: Prod Kibana list
-  hosts: tag_KibanaProd_Group
-  become: true
-  vars:
-    ProdKibanaList: []
-  tasks:
-  - name: Create Kibana servers list 
+  - name: Prod Kibana list
+    vars:
+      ProdKibanaList: [] 
     set_fact:
        ProdKibanaList: "{{ Prod_list | map('regex_replace', '(.*)', 'https://\\1:8000') | list }}"
   - name: Debug 
     debug:
        msg: "{{ ProdKibanaList }}"
-
-- name: Kibana_prod_set_up
-  hosts: tag_KibanaProd_Group
-  roles:
-  - role: geerlingguy.kibana
-    when: ('tag_KibanaProd_Group' in group_names)
-  vars:
-    kibana_version: 7.x
-    kibana_config_template: "/etc/ansible/templates/kibana.j2"
-    kibana_elasticsearch_url: "{{ ProdKibanaList }}"
-    kibana_elasticsearch_hosts: "{{ ProdKibanaList }}"
+  - name: Kibana_prod_set_up
+    roles:
+    - role: geerlingguy.kibana
+      when: ('tag_KibanaProd_Group' in group_names)
+    vars:
+      kibana_version: 7.x
+      kibana_config_template: "/etc/ansible/templates/kibana.j2"
+      kibana_elasticsearch_url: "{{ ProdKibanaList }}"
+      kibana_elasticsearch_hosts: "{{ ProdKibanaList }}"
 
 
-
-
-# - name: Determine nodes to join in Prod
-#   hosts: tag_Group_Elasticsearch
+# - name: Determine Kibana nodes to join in Prod
+#   hosts: tag_KibanaProd_Group
 #   become: true
+#   tags:
+#   - prod
 #   tasks:
 #   - name: Setting nodes IPs 
 #     set_fact:
-#       Prod_list: "{{ groups['tag_Environment_Production'] | default('test', true) | map('extract', hostvars, ['ansible_host']) | list }}" 
-  
+#       Prod_list: "{{ groups['tag_KibanaProd_Group'] | map('extract', hostvars, ['ansible_host']) | list }}" # instead 'ansible_host' you can use the folloving variables as well: ansible_fqdn, ec2_private_ip_address or ansible_nodename
+#   - name: Debug 
+#     debug:
+#        msg: "{{ Prod_list }}"
+
 # - name: Prod Kibana list
 #   hosts: tag_KibanaProd_Group
 #   become: true
@@ -152,17 +149,20 @@
 #   - name: Debug 
 #     debug:
 #        msg: "{{ ProdKibanaList }}"
-      
+
 # - name: Kibana_prod_set_up
 #   hosts: tag_KibanaProd_Group
 #   roles:
 #   - role: geerlingguy.kibana
-#     when: ('tag_Environment_Production' in group_names)
+#     when: ('tag_KibanaProd_Group' in group_names)
 #   vars:
 #     kibana_version: 7.x
 #     kibana_config_template: "/etc/ansible/templates/kibana.j2"
 #     kibana_elasticsearch_url: "{{ ProdKibanaList }}"
 #     kibana_elasticsearch_hosts: "{{ ProdKibanaList }}"
+
+
+
 
 
 - name: Notification
