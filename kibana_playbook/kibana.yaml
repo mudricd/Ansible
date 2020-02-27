@@ -117,7 +117,7 @@
   - name: Kibana_prod_set_up
     import_role:
       name: geerlingguy.kibana
-      when: ('tag_KibanaProd_Group' in group_names)
+    when: ('tag_KibanaProd_Group' in group_names)
     vars:
       kibana_version: 7.x
       kibana_config_template: "/etc/ansible/templates/kibana.j2"
