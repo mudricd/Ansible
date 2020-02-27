@@ -15,7 +15,7 @@
 
 # Production environment configuration
 
-- name: Setting up production Logstash Elasticsearch hosts
+- name: Setting up production Logstash
   hosts: tag_LogstashProd_Group
   become: true
   tags:
@@ -47,7 +47,7 @@
 
 # Test environment configuration
 
-- name: Setting up production Logstash Elasticsearch hosts
+- name: Setting up production Logstash
   hosts: tag_Environment_Test
   become: true
   tags:
