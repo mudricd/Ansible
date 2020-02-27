@@ -113,9 +113,10 @@
   - name: Debug 
     debug:
        msg: "{{ ProdKibanaList }}"
+
   - name: Kibana_prod_set_up
-    roles:
-    - role: geerlingguy.kibana
+    import_role:
+      name: geerlingguy.kibana
       when: ('tag_KibanaProd_Group' in group_names)
     vars:
       kibana_version: 7.x
