@@ -57,7 +57,7 @@
       published_ports:
         - "80:80"
         
-- name: Determine nodes to join in Test
+- name: Determine Kibana nodes to join in Test
   hosts: tag_Environment_Test
   become: true
   tags:
@@ -90,6 +90,21 @@
     kibana_config_template: "/etc/ansible/templates/kibana.j2"
     kibana_elasticsearch_url: "{{ TestKibanaList }}"
     kibana_elasticsearch_hosts: "{{ TestKibanaList }}"
+
+
+- name: Determine Kibana nodes to join in Prod
+  hosts: tag_KibanaProd_Group
+  become: true
+  tags:
+  - prod
+  tasks:
+  - name: Setting nodes IPs 
+    set_fact:
+      Prod_list: "{{ groups['tag_KibanaProd_Group'] | map('extract', hostvars, ['ansible_host']) | list }}" # instead 'ansible_host' you can use the folloving variables as well: ansible_fqdn, ec2_private_ip_address or ansible_nodename
+  - name: Debug 
+    debug:
+       msg: "{{ Prod_list }}"
+
 
 
 
