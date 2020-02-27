@@ -105,6 +105,19 @@
     debug:
        msg: "{{ Prod_list }}"
 
+- name: Prod Kibana list
+  hosts: tag_KibanaProd_Group
+  become: true
+  vars:
+    ProdKibanaList: []
+  tasks:
+  - name: Create Kibana servers list 
+    set_fact:
+       ProdKibanaList: "{{ Prod_list | map('regex_replace', '(.*)', 'https://\\1:8000') | list }}"
+  - name: Debug 
+    debug:
+       msg: "{{ ProdKibanaList }}"
+
 
 
 
