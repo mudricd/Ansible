@@ -69,7 +69,7 @@
     vars:
       TestKibanaList: []
     set_fact:
-       TestKibanaList: "{{ Test_list | map('regex_replace', '(.*)', 'https://\\1:9200') | list }}"
+       TestKibanaList: "{{ Test_list | map('regex_replace', '(.*)', 'http://\\1:9200') | list }}"
   - name: Debug 
     debug:
        msg: "{{ TestKibanaList }}"
