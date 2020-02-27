@@ -14,7 +14,7 @@
         - java-1.8.0-openjdk
 
 - name: Setting up production Logstash Elasticsearch hosts
-  hosts: tag_ElasticsearchProd_Group
+  hosts: tag_LogstashProd_Group
   become: true
   tags:
   - prod
