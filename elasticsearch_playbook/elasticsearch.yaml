@@ -12,13 +12,6 @@
         - htop
         - nmap
 
-- name: Determine nodes to join in Prod
-  hosts: tag_Group_Elasticsearch
-  become: true
-  tasks:
-  - name: Setting nodes IPs 
-    set_fact:
-      Prod_list: "{{ groups['tag_Environment_Production'] | default('test', true) | map('extract', hostvars, ['ansible_host']) | list }}" # instead 'ansible_host' you can use the folloving variables as well: ansible_fqdn, ec2_private_ip_address or ansible_nodename 
 
 - name: Determine nodes to join in NonProd
   hosts: tag_Group_Elasticsearch
@@ -42,7 +35,7 @@
 
 # TEST environment configuration
 
-- name: Determine nodes to join in Test
+- name: Setting up test Elasticsearch
   hosts: tag_ElasticsearchTest_Group
   become: true
   tags:
@@ -52,7 +45,7 @@
     set_fact:
       Test_list: "{{ groups['tag_Environment_Test'] | map('extract', hostvars, ['ansible_host']) | list }}" # instead 'ansible_host' you can use the folloving variables as well: ansible_fqdn, ec2_private_ip_address or ansible_nodename
 
-  - name: Setting up test Elasticsearch
+  - name: Elasticsearch test role
     import_role: 
       name: elastic.elasticsearch
     when: ('tag_Environment_Test' in group_names)
@@ -63,35 +56,42 @@
         cluster.name: "{{ cluster_name }}"
         cluster.initial_master_nodes: "{{ Test_list | join(',') }}"
         discovery.seed_hosts: "{{ Test_list | join(',') }}"
-        http.port: 9200
+        http.port: 9201
         node.master: true
         bootstrap.memory_lock: false
-      es_api_port: 9200
+      es_api_port: 9201
       es_plugins:
        - plugin: ingest-attachment
 
 # Production environment configuration
 
-- name: Elasticsearch_prod_set_up
-  hosts: tag_Group_Elasticsearch
+- name: Setting up production Elasticsearch
+  hosts: tag_ElasticsearchProd_Group
+  become: true
   tags:
   - prod
-  roles:
-    - role: elastic.elasticsearch
-      when: ('tag_Environment_Production' in group_names)
-  vars:
-    es_heap_size: "512m"
-    es_config:
-      network.host: 0.0.0.0
-      cluster.name: "{{ cluster_name }}"
-      cluster.initial_master_nodes: "{{ Prod_list | join(',') }}"
-      discovery.seed_hosts: "{{ Prod_list | join(',') }}"
-      http.port: 9200
-      node.master: true
-      bootstrap.memory_lock: false
-    es_api_port: 9200
-    es_plugins:
-     - plugin: ingest-attachment
+  tasks:
+  - name: Setting nodes IPs 
+    set_fact:
+      Prod_list: "{{ groups['tag_ElasticsearchProd_Group'] | default('test', true) | map('extract', hostvars, ['ansible_host']) | list }}" # instead 'ansible_host' you can use the folloving variables as well: ansible_fqdn, ec2_private_ip_address or ansible_nodename 
+
+  - name: Elasticsearch_prod_set_up
+    import_role:
+      name: elastic.elasticsearch
+    when: ('tag_Environment_Production' in group_names)
+    vars:
+      es_heap_size: "512m"
+      es_config:
+        network.host: 0.0.0.0
+        cluster.name: "{{ cluster_name }}"
+        cluster.initial_master_nodes: "{{ Prod_list | join(',') }}"
+        discovery.seed_hosts: "{{ Prod_list | join(',') }}"
+        http.port: 9201
+        node.master: true
+        bootstrap.memory_lock: false
+      es_api_port: 9201
+      es_plugins:
+       - plugin: ingest-attachment
   
 # NonProd environment configuration
 
