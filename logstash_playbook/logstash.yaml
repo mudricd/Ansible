@@ -13,33 +13,33 @@
         - nmap
         - java-1.8.0-openjdk
 
-- name: Setting up production Logstash
-  hosts: tag_LogstashProd_Group
+- name: Setting up production Logstash Elasticsearch hosts
+  hosts: tag_ElasticsearchProd_Group
   become: true
   tags:
   - prod
   tasks:
   - name: Setting nodes IP list
     set_fact:
-      Prod_list: "{{ groups['tag_LogstashProd_Group'] | map('extract', hostvars, ['ansible_host']) | list }}" # instead 'ansible_host' you can use the folloving variables as well: ansible_fqdn, ec2_private_ip_address or ansible_nodename
+      Prod_list: "{{ groups['tag_ElasticsearchProd_Group'] | map('extract', hostvars, ['ansible_host']) | list }}" # instead 'ansible_host' you can use the folloving variables as well: ansible_fqdn, ec2_private_ip_address or ansible_nodename
   - name: Debug 
     debug:
        msg: "{{ Prod_list }}"
   - name: Modify nodes IP list
     vars:
-      ProdLogstashList: [] 
+      ProdElasticsearchList: [] 
     set_fact:
-       ProdLogstashList: "{{ Prod_list | map('regex_replace', '(.*)', 'http://\\1:9200') | list }}"
+       ProdElasticsearchList: "{{ Prod_list | map('regex_replace', '(.*)', 'http://\\1:9200') | list }}"
   - name: Debug 
     debug:
-       msg: "{{ ProdLogstashList }}"
+       msg: "{{ ProdElasticsearchList }}"
 
   - name: Prod Logstash setup
     import_role: 
       name: geerlingguy.logstash
     when: ('tag_Environment_Production' in group_names)
     vars: 
-      logstash_elasticsearch_hosts: "{{ ProdLogstashList }}"      
+      logstash_elasticsearch_hosts: "{{ ProdElasticsearchList }}"      
       logstash_local_syslog_path: /var/log/messages 
 
 
