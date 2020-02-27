@@ -72,17 +72,26 @@
     set_fact:
       Prod_list: "{{ groups['tag_Environment_Production'] | default('test', true) | map('extract', hostvars, ['ansible_host']) | list }}" 
   
-- name: test list
+- name: Test Kibana list
   hosts: tag_Environment_Test
   become: true
   vars:
-    ellist: []
+    TestKibanaList: []
   tasks:
-  - name: list 
+  - name: Create Kibana servers list 
     set_fact:
-       #ellist: "{{ 'http://' + Test_list|join(':9200,https://') + ':9200' }}"
+       TestKibanaList: "{{ Test_list | map('regex_replace', '(.*)', 'https://\\1:8000') | list }}"
+  - name: Debug 
+    debug:
+       msg: "{{ TestKibanaList }}"
+
+- name: Prod Kibana list
+  hosts: tag_KibanaProd_Group
+  become: true
+  tasks:
+  - name: Create Kibana servers list 
+    set_fact:
        ellist: "{{ Prod_list | map('regex_replace', '(.*)', 'https://\\1:8000') | list }}"
-#    with_items: "{{ Prod_list }}"
   - name: Debug 
     debug:
        msg: "{{ ellist }}"
@@ -95,8 +104,8 @@
   vars:
     kibana_version: 7.x
     kibana_config_template: "/etc/ansible/templates/kibana.j2"
-    kibana_elasticsearch_url: "{{ ellist }}"
-    kibana_elasticsearch_hosts: "{{ ellist }}"
+    kibana_elasticsearch_url: "{{ TestKibanaList }}"
+    kibana_elasticsearch_hosts: "{{ TestKibanaList }}"
 
 - name: Kibana_prod_set_up
   hosts: tag_KibanaProd_Group
