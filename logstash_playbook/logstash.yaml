@@ -45,7 +45,7 @@
     - role: geerlingguy.logstash
       when: ('tag_Environment_Production' in group_names)
   vars: 
-    logstash_elasticsearch_hosts: {{ ProdLogstashList }}
+    logstash_elasticsearch_hosts: "{{ ProdLogstashList }}"
       # - http://10.174.21.110:9200
       # - http://10.174.21.64:9200
       # - http://10.174.21.195:9200
