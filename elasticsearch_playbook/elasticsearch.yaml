@@ -30,14 +30,6 @@
     #when: tag_Environment_NonProd is defined 
     #when: ('tag_Environment_NonProd' in group_names) 
 
-- name: Determine nodes to join in Test
-  hosts: tag_Group_Elasticsearch
-  become: true
-  tasks:
-  - name: Setting nodes IPs 
-    set_fact:
-      Test_list: "{{ groups['tag_Environment_Test'] | map('extract', hostvars, ['ansible_host']) | list }}" # instead 'ansible_host' you can use the folloving variables as well: ansible_fqdn, ec2_private_ip_address or ansible_nodename
- 
  
 - name: Register variables based on tags
   hosts: tag_Group_Elasticsearch
@@ -47,6 +39,38 @@
     set_fact:
       cluster_name: "{{ ec2_tag_ClusterName }}"
     when: "'ec2' in group_names"
+
+# TEST environment configuration
+
+- name: Determine nodes to join in Test
+  hosts: tag_ElasticsearchTest_Group
+  become: true
+  tags:
+  - test
+  tasks:
+  - name: Setting nodes IPs 
+    set_fact:
+      Test_list: "{{ groups['tag_Environment_Test'] | map('extract', hostvars, ['ansible_host']) | list }}" # instead 'ansible_host' you can use the folloving variables as well: ansible_fqdn, ec2_private_ip_address or ansible_nodename
+
+  - name: Setting up test Elasticsearch
+    import_role: 
+      name: elastic.elasticsearch
+    when: ('tag_Environment_Test' in group_names)
+    vars:
+      es_heap_size: "512m"
+      es_config:
+        network.host: 0.0.0.0
+        cluster.name: "{{ cluster_name }}"
+        cluster.initial_master_nodes: "{{ Test_list | join(',') }}"
+        discovery.seed_hosts: "{{ Test_list | join(',') }}"
+        http.port: 9200
+        node.master: true
+        bootstrap.memory_lock: false
+      es_api_port: 9200
+      es_plugins:
+       - plugin: ingest-attachment
+
+# Production environment configuration
 
 - name: Elasticsearch_prod_set_up
   hosts: tag_Group_Elasticsearch
@@ -69,6 +93,7 @@
     es_plugins:
      - plugin: ingest-attachment
   
+# NonProd environment configuration
 
 - name: Elasticsearch_non-prod_set_up
   hosts: tag_Group_Elasticsearch
@@ -91,26 +116,7 @@
     es_plugins:
      - plugin: ingest-attachment
   
-- name: Elasticsearch_non-prod_set_up
-  hosts: tag_Group_Elasticsearch
-  tags:
-  - test
-  roles:
-    - role: elastic.elasticsearch
-      when: ('tag_Environment_Test' in group_names)
-  vars:
-    es_heap_size: "512m"
-    es_config:
-      network.host: 0.0.0.0
-      cluster.name: "{{ cluster_name }}"
-      cluster.initial_master_nodes: "{{ Test_list | join(',') }}"
-      discovery.seed_hosts: "{{ Test_list | join(',') }}"
-      http.port: 9200
-      node.master: true
-      bootstrap.memory_lock: false
-    es_api_port: 9200
-    es_plugins:
-     - plugin: ingest-attachment
+
 
 - name: Notification
   hosts: tag_Group_Elasticsearch
