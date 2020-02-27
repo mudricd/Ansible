@@ -3,7 +3,7 @@
 # Setting up packages and NGINX container
 
 - name: Install packages
-  hosts: tag_Kibana_Group:tag_KibanaProd_Group
+  hosts: tag_KibanaTest_Group:tag_KibanaProd_Group
   become: true
   tasks:
     - name: Install packages
@@ -20,7 +20,7 @@
         name: docker
     
 - name: Start and enable Docker service
-  hosts: tag_Kibana_Group:tag_KibanaProd_Group
+  hosts: tag_KibanaTest_Group:tag_KibanaProd_Group
   become: true
   tasks:
   - name: Services
@@ -30,7 +30,7 @@
       enabled: yes
 
 - name: Nginx
-  hosts: tag_Kibana_Group:tag_KibanaProd_Group
+  hosts: tag_KibanaTest_Group:tag_KibanaProd_Group
   become: true
   tasks:
   - name: Nginx file
@@ -39,7 +39,7 @@
       dest: /root/nginx.conf
 
 - name: Create nginx container
-  hosts: tag_Kibana_Group:tag_KibanaProd_Group
+  hosts: tag_KibanaTest_Group:tag_KibanaProd_Group
   become: true
   tasks:
   - name: Create container
