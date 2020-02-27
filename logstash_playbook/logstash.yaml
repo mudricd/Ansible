@@ -34,6 +34,14 @@
     debug:
        msg: "{{ ProdLogstashList }}"
 
+  - name: Prod Logstash setup
+    import_role: 
+      name: geerlingguy.logstash
+    when: ('tag_Environment_Production' in group_names)
+    vars: 
+      logstash_elasticsearch_hosts: "{{ ProdLogstashList }}"      
+      logstash_local_syslog_path: /var/log/messages 
+
 
 
 
