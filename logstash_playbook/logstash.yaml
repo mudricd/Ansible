@@ -13,28 +13,54 @@
         - nmap
         - java-1.8.0-openjdk
 
-- name: Logstash setup
-  hosts: tag_Environment_Test
+- name: Determine Logstash nodes to join in Prod
+  hosts: tag_KibanaProd_Group
+  become: true
+  tags:
+  - prod
+  tasks:
+  - name: Setting nodes IPs 
+    set_fact:
+      Prod_list: "{{ groups['tag_LogstashProd_Group'] | map('extract', hostvars, ['ansible_host']) | list }}" # instead 'ansible_host' you can use the folloving variables as well: ansible_fqdn, ec2_private_ip_address or ansible_nodename
+  - name: Debug 
+    debug:
+       msg: "{{ Prod_list }}"
+
+- name: Prod Logstash list
+  hosts: tag_LogstashProd_Group
+  become: true
+  vars:
+    ProdLogstashList: []
+  tasks:
+  - name: Create Kibana servers list 
+    set_fact:
+       ProdLogstashList: "{{ Prod_list | map('regex_replace', '(.*)', 'http://\\1:9200') | list }}"
+  - name: Debug 
+    debug:
+       msg: "{{ ProdLogstashList }}"
+
+- name: Prod Logstash setup
+  hosts: tag_LogstashProd_Group
   roles: 
     - role: geerlingguy.logstash
-      when: ('tag_Environment_Test' in group_names)
+      when: ('tag_Environment_Production' in group_names)
   vars: 
-    logstash_elasticsearch_hosts:
-      - http://10.174.21.110:9200
+    logstash_elasticsearch_hosts: {{ ProdLogstashList }}
+      # - http://10.174.21.110:9200
       # - http://10.174.21.64:9200
       # - http://10.174.21.195:9200
     logstash_local_syslog_path: /var/log/messages 
 
-- name: Logstash setup
-  hosts: tag_Group_Logstash
-  roles: 
-    - geerlingguy.logstash
-  vars: 
-    logstash_elasticsearch_hosts:
-      - http://10.174.21.11:9200
-      - http://10.174.21.64:9200
-      - http://10.174.21.195:9200
-    logstash_local_syslog_path: /var/log/messages 
+# - name: Logstash setup
+#   hosts: tag_Group_Logstash
+#   roles: 
+#     - geerlingguy.logstash
+#   vars: 
+#     logstash_elasticsearch_hosts:
+#       - http://10.174.21.11:9200
+#       - http://10.174.21.64:9200
+#       - http://10.174.21.195:9200
+#     logstash_local_syslog_path: /var/log/messages 
 
 - name: Notification
   hosts: tag_Group_Logstash
