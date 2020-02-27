@@ -67,14 +67,6 @@
     set_fact:
       Test_list: "{{ groups['tag_Environment_Test'] | map('extract', hostvars, ['ansible_host']) | list }}" # instead 'ansible_host' you can use the folloving variables as well: ansible_fqdn, ec2_private_ip_address or ansible_nodename
 
-- name: Determine nodes to join in Prod
-  hosts: tag_Group_Elasticsearch
-  become: true
-  tasks:
-  - name: Setting nodes IPs 
-    set_fact:
-      Prod_list: "{{ groups['tag_Environment_Production'] | default('test', true) | map('extract', hostvars, ['ansible_host']) | list }}" 
-  
 - name: Test Kibana list
   hosts: tag_Environment_Test
   become: true
@@ -88,6 +80,29 @@
     debug:
        msg: "{{ TestKibanaList }}"
 
+- name: Kibana_test_set_up
+  hosts: tag_Environment_Test
+  roles:
+  - role: geerlingguy.kibana
+    when: ('tag_Environment_Test' in group_names)
+  vars:
+    kibana_version: 7.x
+    kibana_config_template: "/etc/ansible/templates/kibana.j2"
+    kibana_elasticsearch_url: "{{ TestKibanaList }}"
+    kibana_elasticsearch_hosts: "{{ TestKibanaList }}"
+
+
+
+- name: Determine nodes to join in Prod
+  hosts: tag_Group_Elasticsearch
+  become: true
+  tasks:
+  - name: Setting nodes IPs 
+    set_fact:
+      Prod_list: "{{ groups['tag_Environment_Production'] | default('test', true) | map('extract', hostvars, ['ansible_host']) | list }}" 
+  
+
+
 - name: Prod Kibana list
   hosts: tag_KibanaProd_Group
   become: true
@@ -99,16 +114,7 @@
     debug:
        msg: "{{ ellist }}"
       
-- name: Kibana_test_set_up
-  hosts: tag_Environment_Test
-  roles:
-  - role: geerlingguy.kibana
-    when: ('tag_Environment_Test' in group_names)
-  vars:
-    kibana_version: 7.x
-    kibana_config_template: "/etc/ansible/templates/kibana.j2"
-    kibana_elasticsearch_url: "{{ TestKibanaList }}"
-    kibana_elasticsearch_hosts: "{{ TestKibanaList }}"
+
 
 - name: Kibana_prod_set_up
   hosts: tag_KibanaProd_Group
