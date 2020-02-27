@@ -101,18 +101,18 @@
     set_fact:
       Prod_list: "{{ groups['tag_Environment_Production'] | default('test', true) | map('extract', hostvars, ['ansible_host']) | list }}" 
   
-
-
 - name: Prod Kibana list
   hosts: tag_KibanaProd_Group
   become: true
+  vars:
+    ProdKibanaList: []
   tasks:
   - name: Create Kibana servers list 
     set_fact:
-       ellist: "{{ Prod_list | map('regex_replace', '(.*)', 'https://\\1:8000') | list }}"
+       ProdKibanaList: "{{ Prod_list | map('regex_replace', '(.*)', 'https://\\1:8000') | list }}"
   - name: Debug 
     debug:
-       msg: "{{ ellist }}"
+       msg: "{{ ProdKibanaList }}"
       
 
 
@@ -124,8 +124,8 @@
   vars:
     kibana_version: 7.x
     kibana_config_template: "/etc/ansible/templates/kibana.j2"
-    kibana_elasticsearch_url: "http://ip-10-174-21-11.tattsgroup.io:9200"
-    kibana_elasticsearch_hosts: "http://ip-10-174-21-11.tattsgroup.io:9200"
+    kibana_elasticsearch_url: "{{ ProdKibanaList }}"
+    kibana_elasticsearch_hosts: "{{ ProdKibanaList }}"
 
 
 - name: Notification
