@@ -121,8 +121,8 @@
     vars:
       kibana_version: 7.x
       kibana_config_template: "/etc/ansible/templates/kibana.j2"
-      kibana_elasticsearch_url: "ProdKibanaListAAAAA"
-      kibana_elasticsearch_hosts: "ProdKibanaListAAAAA"
+      kibana_elasticsearch_url: "{{ ProdKibanaList }}"
+      kibana_elasticsearch_hosts: "{{ ProdKibanaList }}"
 
 
 # - name: Determine Kibana nodes to join in Prod
