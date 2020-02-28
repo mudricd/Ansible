@@ -1,6 +1,6 @@
 ---
 
-# Setting up packages and NGINX container
+# Setting up packages and NGINX container#
 
 - name: Install packages
   hosts: tag_KibanaTest_Group:tag_KibanaProd_Group

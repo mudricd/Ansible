@@ -13,7 +13,7 @@
         - nmap
         - java-1.8.0-openjdk
 
-# Production environment configuration
+# Production environment configuration#
 
 - name: Setting up production Logstash
   hosts: tag_LogstashProd_Group
