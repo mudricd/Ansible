@@ -108,6 +108,8 @@
        msg: "{{ ProdKibanaList }}"
 
   - name: Kibana production role
+    tags:
+    - prod
     import_role:
       name: geerlingguy.kibana
     when: ('tag_KibanaProd_Group' in group_names)

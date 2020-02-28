@@ -69,6 +69,8 @@
        msg: "{{ TestElasticsearchList }}"
 
   - name: Test Logstash setup
+    tags:
+    - prod
     import_role: 
       name: geerlingguy.logstash
     when: ('tag_Environment_Test' in group_names)
