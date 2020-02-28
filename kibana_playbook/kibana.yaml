@@ -69,7 +69,7 @@
     vars:
       TestKibanaList: []
     set_fact:
-       TestKibanaList: "{{ Test_list | map('regex_replace', '(.*)', 'http://\\1:9201') | list }}"
+       TestKibanaList: "{{ Test_list | map('regex_replace', '(.*)', 'http://\\1:9200') | list }}"
   - name: Debug 
     debug:
        msg: "{{ TestKibanaList }}"
@@ -102,14 +102,12 @@
     vars:
       ProdKibanaList: [] 
     set_fact:
-       ProdKibanaList: "{{ Prod_list | map('regex_replace', '(.*)', 'http://\\1:9201') | list }}"
+       ProdKibanaList: "{{ Prod_list | map('regex_replace', '(.*)', 'http://\\1:9200') | list }}"
   - name: Debug 
     debug:
        msg: "{{ ProdKibanaList }}"
 
   - name: Kibana production role
-    tags:
-    - prod
     import_role:
       name: geerlingguy.kibana
     when: ('tag_KibanaProd_Group' in group_names)

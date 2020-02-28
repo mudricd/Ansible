@@ -31,7 +31,7 @@
     vars:
       ProdElasticsearchList: [] 
     set_fact:
-       ProdElasticsearchList: "{{ Prod_list | map('regex_replace', '(.*)', 'http://\\1:9201') | list }}"
+       ProdElasticsearchList: "{{ Prod_list | map('regex_replace', '(.*)', 'http://\\1:9200') | list }}"
   - name: Debug 
     debug:
        msg: "{{ ProdElasticsearchList }}"
@@ -51,7 +51,7 @@
   hosts: tag_Environment_Test
   become: true
   tags:
-  - prod
+  - test
   tasks:
   - name: Setting nodes IP list
     set_fact:
@@ -63,14 +63,12 @@
     vars:
       TestElasticsearchList: [] 
     set_fact:
-       TestElasticsearchList: "{{ Test_list | map('regex_replace', '(.*)', 'http://\\1:9201') | list }}"
+       TestElasticsearchList: "{{ Test_list | map('regex_replace', '(.*)', 'http://\\1:9200') | list }}"
   - name: Debug 
     debug:
        msg: "{{ TestElasticsearchList }}"
 
   - name: Test Logstash setup
-    tags:
-    - prod
     import_role: 
       name: geerlingguy.logstash
     when: ('tag_Environment_Test' in group_names)
