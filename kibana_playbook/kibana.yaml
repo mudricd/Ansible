@@ -94,7 +94,7 @@
   tasks:
   - name: Setting nodes IP list
     set_fact:
-      Prod_list: "{{ groups['tag_KibanaProd_Group'] | map('extract', hostvars, ['ansible_host']) | list }}" # instead 'ansible_host' you can use the folloving variables as well: ansible_fqdn, ec2_private_ip_address or ansible_nodename
+      Prod_list: "{{ groups['tag_ElasticsearchProd_Group'] | map('extract', hostvars, ['ansible_host']) | list }}" # instead 'ansible_host' you can use the folloving variables as well: ansible_fqdn, ec2_private_ip_address or ansible_nodename
   - name: Debug 
     debug:
        msg: "{{ Prod_list }}"
