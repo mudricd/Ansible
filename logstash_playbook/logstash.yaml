@@ -31,7 +31,7 @@
     vars:
       ProdElasticsearchList: [] 
     set_fact:
-       ProdElasticsearchList: "{{ Prod_list | map('regex_replace', '(.*)', 'http://\\1:9201') | list }}"
+       ProdElasticsearchList: "{{ Prod_list | map('regex_replace', '(.*)', 'http://\\1:9200') | list }}"
   - name: Debug 
     debug:
        msg: "{{ ProdElasticsearchList }}"
@@ -63,7 +63,7 @@
     vars:
       TestElasticsearchList: [] 
     set_fact:
-       TestElasticsearchList: "{{ Test_list | map('regex_replace', '(.*)', 'http://\\1:9201') | list }}"
+       TestElasticsearchList: "{{ Test_list | map('regex_replace', '(.*)', 'http://\\1:9200') | list }}"
   - name: Debug 
     debug:
        msg: "{{ TestElasticsearchList }}"
