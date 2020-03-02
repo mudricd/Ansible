@@ -9,8 +9,7 @@
   with_items:
     - 01-beats-input.conf
     - 30-elasticsearch-output.conf
-    - 31-elasticsearch-output-haproxy.conf
-    - 32-elasticsearch-output-haproxy.conf   
+    - 31-elasticsearch-output-haproxy.conf  
   notify: restart logstash
 
 - name: Create Logstash filters.
