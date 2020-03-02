@@ -1,6 +1,6 @@
 ---
 
-# Setting up packages and NGINX container#
+# Install packages
 
 - name: Install packages
   hosts: tag_KibanaTest_Group:tag_KibanaProd_Group
@@ -18,7 +18,9 @@
     - name: PIP install Docker
       pip:
         name: docker
-    
+
+# Start and enable Docker
+
 - name: Start and enable Docker service
   hosts: tag_KibanaTest_Group:tag_KibanaProd_Group
   become: true
@@ -29,6 +31,8 @@
       state: started
       enabled: yes
 
+# Copy Nginx conf file
+
 - name: Nginx
   hosts: tag_KibanaTest_Group:tag_KibanaProd_Group
   become: true
@@ -37,6 +41,8 @@
     copy:
       src: /etc/ansible/files/nginx.conf
       dest: /root/nginx.conf
+
+# Create Nginx container
 
 - name: Create nginx container
   hosts: tag_KibanaTest_Group:tag_KibanaProd_Group
@@ -56,25 +62,25 @@
 - name: Setting up test Kibana
   hosts: tag_Environment_Test
   become: true
-  tags:
+  tags: # Tag which is used in Jenkins file to skip this job
   - test
   tasks:
-  - name: Setting nodes IP list 
+  - name: Setting nodes IP list # Creating variable Test_list which is the list of all elasticsearch hosts
     set_fact:
       Test_list: "{{ groups['tag_Environment_Test'] | map('extract', hostvars, ['ansible_host']) | list }}" # instead 'ansible_host' you can use the folloving variables as well: ansible_fqdn, ec2_private_ip_address or ansible_nodename
-  - name: Debug 
+  - name: Debug Test_list # Debugging the list - making sure that the list is correct
     debug:
        msg: "{{ Test_list }}"
-  - name: Modify nodes IP list
+  - name: Modify nodes IP list # Creating variable TestKibanaList which is the same as Test_list but with appended prefix http and suffix 9200
     vars:
       TestKibanaList: []
     set_fact:
        TestKibanaList: "{{ Test_list | map('regex_replace', '(.*)', 'http://\\1:9200') | list }}"
-  - name: Debug 
+  - name: Debug TestKibanaList # Debugging the list - making sure that the list is correct 
     debug:
        msg: "{{ TestKibanaList }}"
 
-  - name: Kibana test role
+  - name: Kibana test role # Kibana configuration
     import_role:
       name: geerlingguy.kibana
     when: ('tag_Environment_Test' in group_names)
@@ -89,25 +95,25 @@
 - name: Setting up production Kibana
   hosts: tag_KibanaProd_Group
   become: true
-  tags:
+  tags: # Tag which is used in Jenkins file to skip this job
   - prod
   tasks:
-  - name: Setting nodes IP list
+  - name: Setting nodes IP list # Creating variable Prod_list which is the list of all elasticsearch hosts
     set_fact:
       Prod_list: "{{ groups['tag_ElasticsearchProd_Group'] | map('extract', hostvars, ['ansible_host']) | list }}" # instead 'ansible_host' you can use the folloving variables as well: ansible_fqdn, ec2_private_ip_address or ansible_nodename
-  - name: Debug 
+  - name: Debug Prod_list # Debugging the list - making sure that the list is correct 
     debug:
        msg: "{{ Prod_list }}"
-  - name: Modify nodes IP list
+  - name: Modify nodes IP list # Creating variable ProdKibanaList which is the same as Prod_list but with appended prefix http and suffix 9200
     vars:
       ProdKibanaList: [] 
     set_fact:
        ProdKibanaList: "{{ Prod_list | map('regex_replace', '(.*)', 'http://\\1:9200') | list }}"
-  - name: Debug 
+  - name: Debug ProdKibanaList # Debugging the list - making sure that the list is correct 
     debug:
        msg: "{{ ProdKibanaList }}"
 
-  - name: Kibana production role
+  - name: Kibana production role # Kibana configuration
     import_role:
       name: geerlingguy.kibana
     when: ('tag_KibanaProd_Group' in group_names)
@@ -127,42 +133,4 @@
     debug:
       msg: "Kibana job finished successfully!"
 
-
-
-# - name: Determine Kibana nodes to join in Prod
-#   hosts: tag_KibanaProd_Group
-#   become: true
-#   tags:
-#   - prod
-#   tasks:
-#   - name: Setting nodes IPs 
-#     set_fact:
-#       Prod_list: "{{ groups['tag_KibanaProd_Group'] | map('extract', hostvars, ['ansible_host']) | list }}" # instead 'ansible_host' you can use the folloving variables as well: ansible_fqdn, ec2_private_ip_address or ansible_nodename
-#   - name: Debug 
-#     debug:
-#        msg: "{{ Prod_list }}"
-
-# - name: Prod Kibana list
-#   hosts: tag_KibanaProd_Group
-#   become: true
-#   vars:
-#     ProdKibanaList: []
-#   tasks:
-#   - name: Create Kibana servers list 
-#     set_fact:
-#        ProdKibanaList: "{{ Prod_list | map('regex_replace', '(.*)', 'https://\\1:8000') | list }}"
-#   - name: Debug 
-#     debug:
-#        msg: "{{ ProdKibanaList }}"
-
-# - name: Kibana_prod_set_up
-#   hosts: tag_KibanaProd_Group
-#   roles:
-#   - role: geerlingguy.kibana
-#     when: ('tag_KibanaProd_Group' in group_names)
-#   vars:
-#     kibana_version: 7.x
-#     kibana_config_template: "/etc/ansible/templates/kibana.j2"
-#     kibana_elasticsearch_url: "{{ ProdKibanaList }}"
-#     kibana_elasticsearch_hosts: "{{ ProdKibanaList }}"
       

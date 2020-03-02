@@ -16,6 +16,37 @@
         - nmap
         - java-1.8.0-openjdk
 
+# Test environment configuration
+
+- name: Setting up production Logstash
+  hosts: tag_Environment_Test
+  become: true
+  tags: # Tag which is used in Jenkins file to skip this job
+  - test
+  tasks:
+  - name: Setting nodes IP list # Creating variable Test_list which is the list of all elasticsearch hosts
+    set_fact:
+      Test_list: "{{ groups['tag_Environment_Test'] | map('extract', hostvars, ['ansible_host']) | list }}" # instead 'ansible_host' you can use the folloving variables as well: ansible_fqdn, ec2_private_ip_address or ansible_nodename
+  - name: Debug Test_list # Debugging the list - making sure that the list is correct
+    debug:
+       msg: "{{ Test_list }}"
+  - name: Modify nodes IP list # Creating variable TestElasticsearchList which is the same as Test_list but with appended prefix http and suffix 9200
+    vars:
+      TestElasticsearchList: [] 
+    set_fact:
+       TestElasticsearchList: "{{ Test_list | map('regex_replace', '(.*)', 'http://\\1:9200') | list }}"
+  - name: Debug  # Debugging the list - making sure that the list is correct
+    debug:
+       msg: "{{ TestElasticsearchList }}"
+
+  - name: Test Logstash setup # Logstash configuration
+    import_role: 
+      name: geerlingguy.logstash
+    when: ('tag_Environment_Test' in group_names)
+    vars: 
+      logstash_elasticsearch_hosts: "{{ TestElasticsearchList }}"      
+      logstash_local_syslog_path: /var/log/messages 
+
 # Production environment configuration#
 
 - name: Setting up production Logstash
@@ -24,7 +55,7 @@
   tags: # Tag which is used in Jenkins file to skip this job
   - prod
   tasks:
-  - name: Setting nodes IP list # Creating variable Prod_list which is the list of all elasticsearch hosts
+  - name: Setting nodes IP list 
     set_fact:
       Prod_list: "{{ groups['tag_ElasticsearchProd_Group'] | map('extract', hostvars, ['ansible_host']) | list }}" # instead 'ansible_host' you can use the folloving variables as well: ansible_fqdn, ec2_private_ip_address or ansible_nodename
   - name: Debug # Debugging the list - making sure that the list is correct
@@ -46,105 +77,6 @@
     vars: 
       logstash_elasticsearch_hosts: "{{ ProdElasticsearchList }}"      
       logstash_local_syslog_path: /var/log/messages 
-
-
-# Test environment configuration
-
-- name: Setting up production Logstash
-  hosts: tag_Environment_Test
-  become: true
-  tags: # Tag which is used in Jenkins file to skip this job
-  - test
-  tasks:
-  - name: Setting nodes IP list # Creating variable Test_list which is the list of all elasticsearch hosts
-    set_fact:
-      Test_list: "{{ groups['tag_Environment_Test'] | map('extract', hostvars, ['ansible_host']) | list }}" # instead 'ansible_host' you can use the folloving variables as well: ansible_fqdn, ec2_private_ip_address or ansible_nodename
-  - name: Debug # Debugging the list - making sure that the list is correct
-    debug:
-       msg: "{{ Test_list }}"
-  - name: Modify nodes IP list # Creating variable TestElasticsearchList which is the same as Test_list but with appended prefix http and suffix 9210
-    vars:
-      TestElasticsearchList: [] 
-    set_fact:
-       TestElasticsearchList: "{{ Test_list | map('regex_replace', '(.*)', 'http://\\1:9200') | list }}"
-  - name: Debug  # Debugging the list - making sure that the list is correct
-    debug:
-       msg: "{{ TestElasticsearchList }}"
-
-  - name: Test Logstash setup # Logstash configuration
-    import_role: 
-      name: geerlingguy.logstash
-    when: ('tag_Environment_Test' in group_names)
-    vars: 
-      logstash_elasticsearch_hosts: "{{ TestElasticsearchList }}"      
-      logstash_local_syslog_path: /var/log/messages 
-
-
-
-
-
-
-
-
-# - name: Determine Logstash nodes to join in Prod
-#   hosts: tag_KibanaProd_Group
-#   become: true
-#   tags:
-#   - prod
-#   tasks:
-#   - name: Setting nodes IPs 
-#     set_fact:
-#       Prod_list: "{{ groups['tag_LogstashProd_Group'] | map('extract', hostvars, ['ansible_host']) | list }}" # instead 'ansible_host' you can use the folloving variables as well: ansible_fqdn, ec2_private_ip_address or ansible_nodename
-#   - name: Debug 
-#     debug:
-#        msg: "{{ Prod_list }}"
-
-# - name: Prod Logstash list
-#   hosts: tag_LogstashProd_Group
-#   become: true
-#   vars:
-#     ProdLogstashList: []
-#   tasks:
-#   - name: Create Kibana servers list 
-#     set_fact:
-#        ProdLogstashList: "{{ Prod_list | map('regex_replace', '(.*)', 'http://\\1:9200') | list }}"
-#   - name: Debug 
-#     debug:
-#        msg: "{{ ProdLogstashList }}"
-
-# - name: Prod Logstash setup
-#   hosts: tag_LogstashProd_Group
-#   roles: 
-#     - role: geerlingguy.logstash
-#       when: ('tag_Environment_Production' in group_names)
-#   vars: 
-#     logstash_elasticsearch_hosts: "{{ ProdLogstashList }}"
-#       # - http://10.174.21.110:9200
-#       # - http://10.174.21.64:9200
-#       # - http://10.174.21.195:9200
-#     logstash_local_syslog_path: /var/log/messages 
-
-
-
-
-
-
-
-
-
-
-
-
-# - name: Logstash setup
-#   hosts: tag_Group_Logstash
-#   roles: 
-#     - geerlingguy.logstash
-#   vars: 
-#     logstash_elasticsearch_hosts:
-#       - http://10.174.21.11:9200
-#       - http://10.174.21.64:9200
-#       - http://10.174.21.195:9200
-#     logstash_local_syslog_path: /var/log/messages 
 
 - name: Notification # Notification
   hosts: tag_Group_Logstash
