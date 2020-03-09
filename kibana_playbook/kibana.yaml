@@ -125,12 +125,22 @@
 
 # Notification
 
-- name: Notification
-  hosts: tag_Environment_Test
-  become: true
-  tasks:
+# - name: Notification
+#   hosts: tag_Environment_Test
+#   become: true
+#   tasks:
+#   - name: Notification
+#     debug:
+#       msg: "Kibana job finished successfully!"
+
+post_tasks:
   - name: Notification
-    debug:
-      msg: "Kibana job finished successfully!"
+    hosts: tag_Environment_Test
+    become: true
+    tasks:
+    - name: Notification
+      debug:
+        msg: "Kibana job finished successfully!"
+
 
       
