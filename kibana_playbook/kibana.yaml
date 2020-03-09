@@ -90,6 +90,11 @@
       kibana_elasticsearch_url: "{{ TestKibanaList }}"
       kibana_elasticsearch_hosts: "{{ TestKibanaList }}"
 
+  post_tasks:
+  - name: Notification
+    debug:
+      msg: "Test Kibana job finished successfully!"
+
 # Production environment configuration
 
 - name: Setting up production Kibana
@@ -126,17 +131,8 @@
   post_tasks:
   - name: Notification
     debug:
-      msg: "Kibana job finished successfully!"
+      msg: "Production Kibana job finished successfully!"
 
-# Notification
-
-# - name: Notification
-#   hosts: tag_Environment_Test
-#   become: true
-#   tasks:
-#   - name: Notification
-#     debug:
-#       msg: "Kibana job finished successfully!"
 
 
 
