@@ -47,7 +47,7 @@
       logstash_elasticsearch_hosts: "{{ TestElasticsearchList }}"      
       logstash_local_syslog_path: /var/log/messages 
 
-# Production environment configuration#
+# Production environment configuration
 
 - name: Setting up production Logstash
   hosts: tag_LogstashProd_Group
