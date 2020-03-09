@@ -65,6 +65,7 @@
 - name: Setting up production Elasticsearch
   hosts: tag_ElasticsearchProd_Group
   become: true
+  serial: 1
   tags:
   - prod
   tasks:
