@@ -122,15 +122,11 @@
       kibana_config_template: "/etc/ansible/templates/kibana.j2"
       kibana_elasticsearch_url: "{{ ProdKibanaList }}"
       kibana_elasticsearch_hosts: "{{ ProdKibanaList }}"
-      
+
   post_tasks:
   - name: Notification
-    hosts: tag_Environment_Test
-    become: true
-    tasks:
-    - name: Notification
-      debug:
-        msg: "Kibana job finished successfully!"
+    debug:
+      msg: "Kibana job finished successfully!"
 
 # Notification
 
