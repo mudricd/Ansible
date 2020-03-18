@@ -1,1 +1,30 @@
 ---
+
+- name: Install notepadplusplus version 7.8.4
+  hosts: tag_Filebeat_Win
+  tasks:
+  - name: Notepad ++ install
+    win_chocolatey:
+      name: notepadplusplus
+      version: '7.8.4'
+
+
+- name: Install filebeat
+  hosts: tag_Filebeat_Win
+  roles:
+    - role: ansible-role-filebeat
+  vars:
+    filebeat_version: '7.6.1'
+    input_logpath: 'C:\Program Files\filebeat\logs'
+    filebeat_inputs:
+    - name: LOGOVI
+      paths:
+        - 'C:\Program Files\filebeat\logs\*'
+    filebeat_output: logstash
+    #    log_type: 'log'
+    logstash:
+      host: '10.174.21.233'
+      port: 5044
+      # filebeat_harvester_buffer_size: 60001
+    filebeat_worker: 2
+    filebeat_bulk_max_size: 501
