@@ -1,6 +1,0 @@
----
-#
-ansible_connection: winrm
-ansible_user: dragan
-ansible_password: Keepout10!
-ansible_winrm_server_cert_validation: ignore
