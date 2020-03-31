@@ -32,6 +32,12 @@
       grafana_security:
         admin_user: admin
         admin_password: "{{ admin_password }}"
+      grafana_datasources:
+        - name: elasticsearch
+          type: elasticsearch
+          access: server
+          url: 'http://localhost:9200'
+          basicAuth: false
 
 
   post_tasks:
