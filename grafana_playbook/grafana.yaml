@@ -27,7 +27,7 @@
   tasks:
   - name: Grafana production role # Grafana configuration
     import_role: 
-      name: cloudalchemy.grafana
+      name: ansible-grafana
     vars:
       grafana_security:
         admin_user: admin
