@@ -41,7 +41,7 @@
           jsonData:
             interval: Daily
             timeField: "@timestamp"
-            esVersion: 7.0+
+            esVersion: 70
 
 
   post_tasks:
