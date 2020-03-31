@@ -43,7 +43,7 @@
             interval: Daily
             timeField: "@timestamp"
             esVersion: 70
-            maxConcurrentShardRequests: 10
+            maxConcurrentShardRequests: 5
 
 
   post_tasks:
