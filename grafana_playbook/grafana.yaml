@@ -38,6 +38,10 @@
           access: server
           url: 'http://localhost:9200'
           basicAuth: false
+          jsonData:
+            interval: Daily
+            timeField: "@timestamp"
+            esVersion: 7
 
 
   post_tasks:
