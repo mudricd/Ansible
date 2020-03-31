@@ -3,7 +3,7 @@
 # Install packages
 
 - name: Install packages
-  hosts: tag_KibanaTest_Group:tag_KibanaProd_Group
+  hosts: tag_Group_Grafana
   become: true
   tasks:
     - name: Install packages
@@ -19,14 +19,22 @@
       pip:
         name: docker
 
-# Start and enable Docker
-
-- name: Start and enable Docker service
-  hosts: tag_KibanaTest_Group:tag_KibanaProd_Group
+- name: Setting up test Grafana
+  hosts: tag_Group_Grafana
   become: true
+  tags: # Tag which is used in Jenkins file to skip this job
+  - test
   tasks:
-  - name: Services
-    service:
-      name: docker
-      state: started
-      enabled: yes
+  - name: Grafana production role # Grafana configuration
+    import_role: 
+      name: cloudalchemy.grafana
+    vars:
+      grafana_security:
+        admin_user: admin
+        admin_password: {{ admin_password }}
+
+
+post_tasks:
+- name: Notification
+  debug:
+    msg: "Test Grafana job finished successfully!"
