@@ -1,0 +1,32 @@
+---
+
+# Install packages
+
+- name: Install packages
+  hosts: tag_KibanaTest_Group:tag_KibanaProd_Group
+  become: true
+  tasks:
+    - name: Install packages
+      yum:
+        name: "{{ packages }}"
+        state: present
+      vars:
+        packages:
+          - htop
+          - python2-pip
+          - docker
+    - name: PIP install Docker
+      pip:
+        name: docker
+
+# Start and enable Docker
+
+- name: Start and enable Docker service
+  hosts: tag_KibanaTest_Group:tag_KibanaProd_Group
+  become: true
+  tasks:
+  - name: Services
+    service:
+      name: docker
+      state: started
+      enabled: yes
