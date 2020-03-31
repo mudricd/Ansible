@@ -36,7 +36,6 @@
         - name: elasticsearch
           type: elasticsearch
           access: server
-          version: "7.0+"
           url: 'http://localhost:9200'
           basicAuth: false
 
