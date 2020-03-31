@@ -39,11 +39,11 @@
           database: "[filebeat-]YYYY.MM.DD"
           url: 'http://localhost:9200'
           basicAuth: false
-          maxConcurrentShardRequests: 10
           jsonData:
             interval: Daily
             timeField: "@timestamp"
             esVersion: 70
+            maxConcurrentShardRequests: 10
 
 
   post_tasks:
