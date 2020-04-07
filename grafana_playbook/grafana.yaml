@@ -40,7 +40,6 @@
           url: 'http://localhost:9200'
           basicAuth: false
           jsonData:
-            interval: Daily
             timeField: "@timestamp"
             esVersion: 70
             maxConcurrentShardRequests: 5
