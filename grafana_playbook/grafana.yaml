@@ -36,7 +36,7 @@
         - name: elasticsearch
           type: elasticsearch
           access: server
-          database: "[filebeat-]YYYY.MM.DD"
+          database: "metricbeat-7.5.2"
           url: 'http://localhost:9200'
           basicAuth: false
           jsonData:
@@ -48,6 +48,7 @@
         - dashboard_id: 11567
           revision_id: 1
           datasource: elasticsearch
+      grafana_dashboards_dir: "/var/lib/grafana/dashboards" 
 
 
   post_tasks:
