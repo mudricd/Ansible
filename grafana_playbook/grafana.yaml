@@ -38,16 +38,16 @@
           access: server
           database: "metricbeat-7.5.2"
           url: 'http://localhost:9200'
-          basicAuth: false
-          tlsAuth: false
-          tlsAuthWithCACert: false
-          tlsSkipVerify: false
           readOnly: false
           editable: true
           jsonData:
             timeField: "@timestamp"
             esVersion: 70
             maxConcurrentShardRequests: 5
+            basicAuth: false
+            tlsAuth: false
+            tlsAuthWithCACert: false
+            tlsSkipVerify: false
       grafana_dashboards:
         - dashboard_id: 11567
           revision_id: 1
