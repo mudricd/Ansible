@@ -32,21 +32,22 @@
       grafana_security:
         admin_user: admin
         admin_password: "{{ admin_password }}"
-      # grafana_datasources:
-      #   - name: elasticsearch
-      #     type: elasticsearch
-      #     access: server
-      #     database: "metricbeat-7.5.2"
-      #     url: 'http://localhost:9200'
-      #     basicAuth: false
-      #     jsonData:
-      #       timeField: "@timestamp"
-      #       esVersion: 70
-      #       maxConcurrentShardRequests: 5
-      # grafana_dashboards:
-      #   - dashboard_id: 11567
-      #     revision_id: 1
-      #     datasource: elasticsearch
+      grafana_datasources:
+        - name: elasticsearch
+          type: elasticsearch
+          access: server
+          database: "metricbeat-7.5.2"
+          url: 'http://localhost:9200'
+          basicAuth: false
+          readOnly: false
+          jsonData:
+            timeField: "@timestamp"
+            esVersion: 70
+            maxConcurrentShardRequests: 5
+      grafana_dashboards:
+        - dashboard_id: 11567
+          revision_id: 1
+          datasource: elasticsearch
 
 
   post_tasks:
