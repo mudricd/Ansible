@@ -39,6 +39,9 @@
           database: "metricbeat-7.5.2"
           url: 'http://localhost:9200'
           basicAuth: false
+          tlsAuth: false
+          tlsAuthWithCACert: false
+          tlsSkipVerify: false
           readOnly: false
           editable: true
           jsonData:
