@@ -44,6 +44,10 @@
             timeField: "@timestamp"
             esVersion: 70
             maxConcurrentShardRequests: 5
+      grafana_dashboards:
+        - dashboard_id: 111
+          revision_id: 1
+          datasource: elasticsearch
 
 
   post_tasks:
