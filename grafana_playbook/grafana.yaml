@@ -48,7 +48,6 @@
         - dashboard_id: 11567
           revision_id: 1
           datasource: elasticsearch
-      grafana_dashboards_dir: "/var/lib/grafana/dashboards" 
 
 
   post_tasks:
