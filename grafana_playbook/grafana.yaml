@@ -40,11 +40,11 @@
           url: 'https://localhost:9200'
           readOnly: false
           editable: true
+          basicAuth: true
           jsonData:
             timeField: "@timestamp"
             esVersion: 70
-            maxConcurrentShardRequests: 5
-            basicAuth: true
+            maxConcurrentShardRequests: 5      
       grafana_dashboards:
         - dashboard_id: 11567
           revision_id: 1
