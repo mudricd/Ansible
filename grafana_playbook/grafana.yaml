@@ -43,7 +43,6 @@
           basicAuth: false
           jsonData:
             tlsAuth: false
-            tlsClientAuth: false
             timeField: "@timestamp"
             esVersion: 70
             maxConcurrentShardRequests: 5      
