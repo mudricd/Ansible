@@ -41,7 +41,6 @@
           readOnly: false
           editable: true
           basicAuth: false
-          tlsAuth: true
           jsonData:
             timeField: "@timestamp"
             esVersion: 70
