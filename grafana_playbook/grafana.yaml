@@ -53,24 +53,24 @@
           revision_id: 1
           datasource: elasticsearch
 
-  - name: Create elasticsearch datasource
-    grafana_datasource:
-      name: "datasource-elastic"
-      grafana_url: "https://grafana.company.com"
-      grafana_user: "admin"
-      grafana_password: "xxxxxx"
-      org_id: "1"
-      ds_type: "elasticsearch"
-      ds_url: "https://elastic.company.com:9200"
-      database: "[logstash_]YYYY.MM.DD"
-      basic_auth_user: "grafana"
-      basic_auth_password: "******"
-      time_field: "@timestamp"
-      time_interval: "1m"
-      interval: "Daily"
-      es_version: 56
-      max_concurrent_shard_requests: 42
-      tls_ca_cert: "/etc/ssl/certs/ca.pem"
+  # - name: Create elasticsearch datasource
+  #   grafana_datasource:
+  #     name: "datasource-elastic"
+  #     grafana_url: "https://grafana.company.com"
+  #     grafana_user: "admin"
+  #     grafana_password: "xxxxxx"
+  #     org_id: "1"
+  #     ds_type: "elasticsearch"
+  #     ds_url: "https://elastic.company.com:9200"
+  #     database: "[logstash_]YYYY.MM.DD"
+  #     basic_auth_user: "grafana"
+  #     basic_auth_password: "******"
+  #     time_field: "@timestamp"
+  #     time_interval: "1m"
+  #     interval: "Daily"
+  #     es_version: 56
+  #     max_concurrent_shard_requests: 42
+  #     tls_ca_cert: "/etc/ssl/certs/ca.pem"
 
 
   post_tasks:
