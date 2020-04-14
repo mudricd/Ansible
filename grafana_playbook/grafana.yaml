@@ -40,7 +40,7 @@
           url: 'https://localhost:9200'
           readOnly: false
           editable: true
-          basicAuth: true
+          basicAuth: false
           jsonData:
             timeField: "@timestamp"
             esVersion: 70
