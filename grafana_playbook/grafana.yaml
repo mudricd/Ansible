@@ -48,9 +48,6 @@
             esVersion: 70
             maxConcurrentShardRequests: 5
             basicAuth: false
-            tlsAuth: false
-            tlsAuthWithCACert: false
-            tlsSkipVerify: false
       grafana_dashboards:
         - dashboard_id: 11567
           revision_id: 1
