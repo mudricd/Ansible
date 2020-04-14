@@ -35,12 +35,13 @@
       grafana_datasources:
         - name: elasticsearch
           type: elasticsearch
-          access: server
+          access: proxy
           database: "metricbeat-7.5.2"
           url: http://localhost:9200
           readOnly: false
           editable: true
           basicAuth: false
+          isDefault: false
           jsonData:
             tlsAuth: false
             timeField: "@timestamp"
