@@ -37,7 +37,7 @@
           type: elasticsearch
           access: server
           database: "metricbeat-7.5.2"
-          url: 'http://localhost:9200'
+          url: 'https://localhost:9200'
           readOnly: false
           editable: true
           jsonData:
