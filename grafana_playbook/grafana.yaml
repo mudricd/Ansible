@@ -42,7 +42,7 @@
           editable: true
           basicAuth: false
           jsonData:
-            tlsAuth: true
+            tlsAuth: false
             timeField: "@timestamp"
             esVersion: 70
             maxConcurrentShardRequests: 5      
